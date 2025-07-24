@@ -1,0 +1,31 @@
+TABLE
+    THEAD
+        TROW
+            FOR heading$ IN list_headings$
+                THEADCELL
+                    PRINT heading$
+                END THEADCELL
+            NEXT
+            THEADCELL
+                PRINT "&nbsp;"
+            END THEADCELL
+        END TROW
+    END THEAD
+    TBODY
+        FOR item& IN list&
+            TROW
+                FOR var$ IN list_vars$
+                    TCELL
+                        PRINT item&(var$)
+                    END TCELL
+                NEXT
+                TCELL
+                    LET list_edit_link$=list_edit_link$+"/"+item&("id")
+                    LINK list_edit_link$,"Edit the entry","nav-link"
+                        PRINT "Edit"
+                    END LINK
+                END TCELL
+            END TROW
+        NEXT
+    END TBODY
+END TABLE

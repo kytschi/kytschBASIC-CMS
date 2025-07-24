@@ -1,0 +1,23 @@
+HEADER
+	HEADING 1
+		PRINT "kytsch","kytsch"
+		PRINT "BASIC"
+		PRINT " CMS", "kytsch"
+	END HEADING 1
+	MENU
+		LINK "/kb-cms","Go to the dashboard","nav-link"
+			PRINT "Dashboard"
+		END LINK
+		LINK "/kb-cms/pages","Go to the pages","nav-link"
+			PRINT "Pages"
+		END LINK
+	END MENU
+END HEADER
+
+DIV ,"mobile"
+	SWRITE
+		PRINT "Put down that phone!"
+		LINE BREAK
+		PRINT "Please view me on real computer."
+	END SWRITE
+END DIV

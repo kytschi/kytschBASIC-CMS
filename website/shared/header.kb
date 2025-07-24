@@ -1,0 +1,19 @@
+HEADER
+	HEADING 1
+		PRINT "kytsch","kytsch"
+		PRINT "BASIC","basic"
+	END HEADING 1
+	MENU
+		LINK "/","Go to the homepage","nav-link"
+			PRINT "Home"
+		END LINK
+	END MENU
+END HEADER
+
+DIV ,"mobile"
+	SWRITE
+		PRINT "Put down that phone!"
+		LINE BREAK
+		PRINT "Please view me on real computer."
+	END SWRITE
+END DIV

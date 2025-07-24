@@ -1,0 +1,19 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Dashboard | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				HEADING 2
+					PRINT "Dashboard"
+				END HEADING 2
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

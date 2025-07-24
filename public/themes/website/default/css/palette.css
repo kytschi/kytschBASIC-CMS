@@ -1,0 +1,281 @@
+@font-face {
+    font-family: 'Mono';
+    src: url("../fonts/RobotoMono.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'Body';
+    src: url("../fonts/IBMPlexSans.ttf") format("truetype");
+}
+
+
+html, body {
+    background-color: #fff;
+    color: #000;
+    font-family: "Body", Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    height: 100vh;
+    width: 100%;
+    min-width: 1024px;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+    overflow-y: auto;
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+    color: #000;
+}
+
+a:hover {
+    color: #d14;
+    text-decoration: underline;
+}
+
+a:focus, a:active {
+    color: #d14;
+    border: 0;
+}
+
+.no-link:hover {
+    text-decoration: none !important;
+}
+
+.command-heading {
+    text-transform: uppercase;
+}
+
+footer {
+    padding: 15px 15px;
+    width: calc(100% - 30px);
+    display: block;
+    background-color: #fff;
+    border-top:1px solid #111;
+}
+
+footer p {
+	padding: 0;
+	margin: 0;
+}
+
+.form-input {
+    width: 100%;
+}
+
+h1 {
+    font-size: 16pt !important;
+    border-bottom: 1px solid #111;
+    padding: 30px;
+    margin: 0;
+    color: #d14;
+    font-weight: normal;
+}
+
+h2 {
+    color: #d14;
+    font-size: 16pt !important;
+    font-weight: normal;
+}
+
+.heading-command {
+    color: #d14 !important;
+    font-weight: normal;
+    font-size: 16pt !important;
+}
+
+.heading-args {
+    color: #cb7832 !important;
+    font-weight: normal;
+}
+
+.heading-required {
+    color: #d14 !important;
+    font-weight: normal;
+}
+
+.kytsch {
+    color: #000;
+    font-weight: normal;
+}
+
+.basic {
+    color: #d14 !important;
+    font-weight: normal;
+}
+
+h3, h4, .h3 {
+    font-size: 16pt;
+    font-weight: normal;
+    color: #d14 !important;
+}
+
+.important {
+    font-weight: bold;
+}
+
+header {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    height: 100%;
+    border-right: 1px solid #111;
+    background-color: #fff;
+}
+
+.kb-col {
+    float: left;
+    box-sizing: border-box;
+}
+
+.kb-col-12 {
+    width: 50%;
+}
+
+.kb-col-24 {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.kb-row {
+    box-sizing: border-box;
+    position: relative;
+}
+
+.kb-captcha-img {
+    width: 100%;
+    background-color: #fff;
+}
+
+.kb-captcha-img img {
+    min-width: 60%;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 240px);
+    margin-left: 240px;
+}
+
+#main-content {
+    float: left;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding-bottom: 30px;
+}
+
+#main-content-col {
+    padding: 15px 45px 0 45px;
+    float: left;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#mobile {
+    background: #000;
+    position: absolute;
+    left: 50px;
+    top: 40%;
+    z-index: 1000;
+    font-size: 18pt;
+    padding: 30px;
+    display: none;
+}
+
+nav {
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-top: 10px;
+    width: 100%;
+    height: 100vh;
+}
+
+nav a:hover {
+    cursor: pointer;
+    color: #d14;
+    text-decoration: underline;
+}
+
+.nav-link {
+    float: left;
+    width: 100%;
+    padding: 10px 0px 10px 30px;
+}
+
+p {
+    white-space: pre-line;
+}
+
+p a {
+    text-decoration: underline;
+}
+
+pre, .kb-code-block {
+    padding: 40px;
+    color: #ffc228;
+    font-weight: bold;
+    background: #060606;
+    -moz-tab-size: 4;
+    tab-size: 4;
+	overflow-x: hidden;
+    font-family: "Mono", Arial, Helvetica, sans-serif !important;
+    line-height: 1em;
+}
+code {
+    font-family: "Mono", Arial, Helvetica, sans-serif !important;
+}
+.kb-code-block a {
+    color: #ffc228;
+}
+
+table {
+	border-spacing: 0px;
+    min-width: 50%;
+}
+
+.table-border td {
+    border: 1px solid #fff;
+}
+
+th, td {
+    text-align: left;
+	border-bottom: 1px solid #000;
+	padding: 10px;
+}
+
+.text-right {
+	text-align: right;
+}
+
+@media only screen and (max-width: 1024px) {
+    body {
+        overflow-x: scroll;
+    }
+
+    pre, .kb-code-block {
+        -moz-tab-size: 2;
+        tab-size: 2;
+    }
+}
+@media only screen and (max-width: 900px) {
+    #mobile {
+        display: block;
+    }
+}

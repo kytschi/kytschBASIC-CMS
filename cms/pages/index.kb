@@ -1,0 +1,32 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Pages | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				DATA
+					DOPEN "kytschBASIC-CMS"
+					DREAD "pages"
+					DSELECT "*"					
+					DSORT "pages.name ASC"
+					DFETCH list&
+				END DATA
+				HEADING 2
+					PRINT "Pages"
+				END HEADING 2
+				DIV
+					DEF list_headings$=("Name", "Path")
+					DEF list_vars$=("name", "path")
+					DEF list_edit_link$="/kb-cms/pages/edit"
+					LOAD "_ROOT/../cms/shared/list"
+				END DIV
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

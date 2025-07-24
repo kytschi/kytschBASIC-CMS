@@ -1,0 +1,30 @@
+DATA
+	DOPEN "kytschBASIC-CMS"
+	DREAD "pages"
+	DSELECT "*"	
+	DWHERE "path=:path AND status='active' AND deleted_at IS NULL"
+	DBIND path="_PATH"
+	DFETCH data&
+END DATA
+LANG "en"
+HEAD
+	LOAD "_ROOT/../website/shared/head"
+	NAME data&[0]["title"]
+END HEAD
+BODY
+	LOAD "_ROOT/../website/shared/header"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				HEADING 2
+					PRINT data&[0]["title"]
+				END HEADING 2
+				SWRITE
+					PRINT data&[0]["content"]
+				END SWRITE
+			END DIV
+		END DIV
+		LOAD "_ROOT/../website/shared/footer"
+	END MAIN
+END BODY
+END
