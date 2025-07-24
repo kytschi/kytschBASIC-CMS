@@ -1,7 +1,7 @@
 LANG "en"
 HEAD
 	LOAD "_ROOT/../cms/shared/head"
-	NAME "Edit the page | kytschBASIC CMS"
+	NAME "Create a page | kytschBASIC CMS"
 END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
@@ -12,25 +12,16 @@ BODY
 					DATA
 						DOPEN "kytschBASIC-CMS"
 						DREAD "pages"
-						DSET "name=:name, content=:content"	
-						DWHERE "id=:id"
-						DBIND id=_UVARS("id"), name=_POST("name"), content=_POST("content")
+						DINSERT "name=:name, content=:content, title=:title, path=:path, created_by=:user_id, updated_by=:user_id"
+						DBIND name=_POST("name"), content=_POST("content"), title=_POST("title"), path=_POST("path"), user_id="00000000-0000-0000-0000-000000000000"
 						DEXEC
 					END DATA
 					DIV "alert"
-						PRINT "Entry has been updated"
+						PRINT "Entry has been created"
 					END DIV
 				END IF
-				DATA
-					DOPEN "kytschBASIC-CMS"
-					DREAD "pages"
-					DSELECT "*"	
-					DWHERE "id=:id"
-					DBIND id=_UVARS("id")
-					DFETCH data&
-				END DATA
 				HEADING 2
-					PRINT "Page edit"
+					PRINT "Page create"
 				END HEADING 2
 				DIV "page-toolbar"
 					LINK "/kb-cms/pages","Back to the list","btn-icon"
@@ -45,19 +36,19 @@ BODY
 						DIV "form-body"
 							DIV "form-group"
 								PRINT "Name"
-								TEXTINPUT "name",data&[0]["name"],"form-input", "Please enter a name"
+								TEXTINPUT "name",,"form-input", "Please enter a name"
 							END DIV
 							DIV "form-group"
 								PRINT "Path/URL"
-								TEXTINPUT "path",data&[0]["path"],"form-input", "Please enter a path/URL"
+								TEXTINPUT "path",,"form-input", "Please enter a path/URL"
 							END DIV
 							DIV "form-group"
 								PRINT "Title"
-								TEXTINPUT "title",data&[0]["title"],"form-input", "Please enter a title"
+								TEXTINPUT "title",,"form-input", "Please enter a title"
 							END DIV
 							DIV "form-group"
 								PRINT "Content"
-								TEXTAREA "content",data&[0]["content"], "form-input", "Please enter some page content"
+								TEXTAREA "content",, "form-input", "Please enter some page content"
 							END DIV
 						END DIV
 						DIV "form-footer"

@@ -1,12 +1,22 @@
+DATA
+	DOPEN "kytschBASIC-CMS"
+	DREAD "pages"
+	DSELECT "*"	
+	DWHERE "status='active' AND deleted_at IS NULL"
+	DSORT "created_at ASC"
+	DFETCH data&
+END DATA
 HEADER
 	HEADING 1
 		PRINT "kytsch","kytsch"
 		PRINT "BASIC","basic"
 	END HEADING 1
 	MENU
-		LINK "/","Go to the homepage","nav-link"
-			PRINT "Home"
-		END LINK
+		FOR item& IN data&
+			LINK item&["path"],"Go to the page","nav-link"
+				PRINT item&["name"]
+			END LINK
+		NEXT
 	END MENU
 END HEADER
 

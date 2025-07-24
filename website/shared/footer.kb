@@ -6,17 +6,10 @@ FOOTER
 			PRINT "BASIC","basic"
 			PRINT " "
 			VERSION
-			SWRITE
-				PRINT "Page loaded in approx "
-				BENCHMARK
-			END SWRITE
 		END DIV
 		DIV "kb-col kb-col-12 text-right"
-			SWRITE
-				PRINT "Created by Mike Welsh"
-			END SWRITE
 			LINK "https://kytschi.com","Checkout Kytschi",,"_blank"
-				PRINT "Checkout Kytschi"
+				PRINT "Created by Mike Welsh"
 			END LINK
 		END DIV
 	END DIV

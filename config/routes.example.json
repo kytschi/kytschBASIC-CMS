@@ -1,6 +1,27 @@
 [
 	{
+		"url": "/kb-cms",
+		"template": "../cms/dashboard.kb"
+	},
+	{
+		"url": "/kb-cms/pages",
+		"template": "../cms/pages/index.kb"
+	},
+	{
+		"url": "/kb-cms/pages/add",
+		"template": "../cms/pages/add.kb"
+	},
+	{
+		"url": "/kb-cms/pages/edit/{id}",
+		"template": "../cms/pages/edit.kb"
+	},
+
+	{
 		"url": "/",
-		"template": "project/index.kb"
+		"template": "../website/index.kb"
+	},
+	{
+		"url": "*",
+		"template": "../website/page.kb"
 	}
 ]
