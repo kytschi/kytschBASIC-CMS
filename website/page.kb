@@ -15,6 +15,7 @@ BODY
 	LOAD "_ROOT/../website/shared/header"
 	MAIN
 		DIV "kb-row","main-content"
+			PRINT "_PATH"
 			DIV "kb-col kb-col-24","main-content-col"
 				HEADING 2
 					PRINT page&[0]["title"]

@@ -1,0 +1,89 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Add a user | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				IFNTE _POST("btn_save") THEN
+					DEF required_fields&=("name", "password", "password_check")
+					DEF missing_fields%=0
+					DEF invalid_pass%=0
+
+					FOR field$ IN required_fields&
+						IF _POST(field$)="" THEN
+							LET missing_fields%=1
+						END IF
+					NEXT
+
+					IF _POST("password")!=_POST("password_check") THEN
+						LET invalid_pass%=1
+					END IF
+
+					IF missing_fields%=1 THEN
+						DIV "alert"
+							PRINT "Missing required fields"
+						END DIV
+					ELSEIF invalid_pass%=1 THEN
+						DIV "alert"
+							PRINT "Passwords do not match"
+						END DIV
+					ELSE
+						DEF password$=HASH(_POST("password"))
+						DATA
+							DOPEN "kytschBASIC-CMS"
+							DREAD "users"
+							DINSERT "name=:name,password=:password, group_id='0', created_by=:user_id, updated_by=:user_id"
+							DBIND name=_POST("name"), password=password$, user_id="00000000-0000-0000-0000-000000000000"
+							DEXEC
+						END DATA
+						DIV "alert"
+							PRINT "Entry has been created"
+						END DIV
+					END IF
+				END IF
+				HEADING 2
+					PRINT "User add"
+				END HEADING 2
+				DIV "page-toolbar"
+					LINK "/kb-cms/users","Back to the list","btn-icon"
+                        PRINT "Back"
+                    END LINK
+				END DIV
+				DIV
+					FORM "form_save", "POST"
+						DIV "form-header"
+							PRINT "Details"
+							PRINT " required fields*", "required"
+						END DIV
+						DIV "form-body"
+							DIV "form-group"
+								PRINT "Name"
+								PRINT "*", "required"
+								TEXTINPUT "name",,"form-input", "Please enter a username",,true
+							END DIV
+							DIV "form-group"
+								PRINT "Password"
+								PRINT "*", "required"
+								PASSWORDINPUT "password",,"form-input", "Please enter a password",,true
+							END DIV
+							DIV "form-group"
+								PRINT "Password check"
+								PRINT "*", "required"
+								PASSWORDINPUT "password_check",,"form-input", "Please re-enter a password",,true
+							END DIV
+						END DIV
+						DIV "form-footer"
+							BUTTON SUBMIT "btn_save",,,, "Save"
+						END DIV
+					END FORM
+				END DIV
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

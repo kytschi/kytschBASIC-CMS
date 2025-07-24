@@ -1,0 +1,73 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Edit the page | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				IFNTE _POST("btn_save") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "pages"
+						DSET "name=:name, content=:content"	
+						DWHERE "id=:id"
+						DBIND id=_UVARS("id"), name=_POST("name"), content=_POST("content")
+						DEXEC
+					END DATA
+					DIV "alert"
+						PRINT "Entry has been updated"
+					END DIV
+				END IF
+				DATA
+					DOPEN "kytschBASIC-CMS"
+					DREAD "pages"
+					DSELECT "*"	
+					DWHERE "id=:id"
+					DBIND id=_UVARS("id")
+					DFETCH data&
+				END DATA
+				HEADING 2
+					PRINT "Page edit"
+				END HEADING 2
+				DIV "page-toolbar"
+					LINK "/kb-cms/pages","Back to the list","btn-icon"
+                        PRINT "Back"
+                    END LINK
+				END DIV
+				DIV
+					FORM "form_save", "POST"
+						DIV "form-header"
+							PRINT "Details"
+						END DIV
+						DIV "form-body"
+							DIV "form-group"
+								PRINT "Name"
+								TEXTINPUT "name",data&[0]["name"],"form-input", "Please enter a name"
+							END DIV
+							DIV "form-group"
+								PRINT "Path/URL"
+								TEXTINPUT "path",data&[0]["path"],"form-input", "Please enter a path/URL"
+							END DIV
+							DIV "form-group"
+								PRINT "Title"
+								TEXTINPUT "title",data&[0]["title"],"form-input", "Please enter a title"
+							END DIV
+							DIV "form-group"
+								PRINT "Content"
+								TEXTAREA "content",data&[0]["content"], "form-input", "Please enter some page content"
+							END DIV
+						END DIV
+						DIV "form-footer"
+							BUTTON SUBMIT "btn_save",,,, "Save"
+						END DIV
+					END FORM
+				END DIV
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

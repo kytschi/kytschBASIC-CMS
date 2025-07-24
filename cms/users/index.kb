@@ -1,0 +1,37 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Users | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				DATA
+					DOPEN "kytschBASIC-CMS"
+					DREAD "users"
+					DSELECT "*"					
+					DSORT "users.name ASC"
+					DFETCH list&
+				END DATA
+				HEADING 2
+					PRINT "Users"
+				END HEADING 2
+				DIV "page-toolbar"
+					LINK "/kb-cms/users/add","Create a user","btn-icon"
+                        PRINT "Add"
+                    END LINK
+				END DIV
+				DIV
+					DEF list_headings$=("Name", "Status")
+					DEF list_vars$=("name", "status")
+					DEF list_edit_link$="/kb-cms/users/edit"
+					LOAD "_ROOT/../cms/shared/list"
+				END DIV
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

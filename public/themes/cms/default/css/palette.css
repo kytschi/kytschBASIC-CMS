@@ -264,6 +264,11 @@ th, td {
 	text-align: right;
 }
 
+.required {
+    font-size: 0.8em;
+    color: #d14;
+}
+
 @media only screen and (max-width: 1024px) {
     body {
         overflow-x: scroll;
