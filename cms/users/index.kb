@@ -12,7 +12,7 @@ BODY
 					DOPEN "kytschBASIC-CMS"
 					DREAD "users"
 					DSELECT "*"					
-					DSORT "users.name ASC"
+					DSORT "users.username ASC"
 					DFETCH list&
 				END DATA
 				HEADING 2
@@ -24,8 +24,8 @@ BODY
                     END LINK
 				END DIV
 				DIV
-					DEF list_headings$=("Name", "Status")
-					DEF list_vars$=("name", "status")
+					DEF list_headings$=("Username", "Status")
+					DEF list_vars$=("username", "status")
 					DEF list_edit_link$="/kb-cms/users/edit"
 					LOAD "_ROOT/../cms/shared/list"
 				END DIV

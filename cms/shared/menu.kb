@@ -4,17 +4,19 @@ HEADER
 		PRINT "BASIC"
 		PRINT " CMS", "kytsch"
 	END HEADING 1
-	MENU
-		LINK "/kb-cms","Go to the dashboard","nav-link"
-			PRINT "Dashboard"
-		END LINK
-		LINK "/kb-cms/pages","Go to the pages","nav-link"
-			PRINT "Pages"
-		END LINK
-		LINK "/kb-cms/users","Go to the users","nav-link"
-			PRINT "Users"
-		END LINK
-	END MENU
+	IF valid_user& THEN
+		MENU
+			LINK "/kb-cms","Go to the dashboard","nav-link"
+				PRINT "Dashboard"
+			END LINK
+			LINK "/kb-cms/pages","Go to the pages","nav-link"
+				PRINT "Pages"
+			END LINK
+			LINK "/kb-cms/users","Go to the users","nav-link"
+				PRINT "Users"
+			END LINK
+		END MENU
+	END IF
 END HEADER
 
 DIV ,"mobile"

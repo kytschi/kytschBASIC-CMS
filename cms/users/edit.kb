@@ -11,10 +11,10 @@ BODY
 				IFNTE _POST("btn_save") THEN
 					DATA
 						DOPEN "kytschBASIC-CMS"
-						DREAD "pages"
-						DSET "name=:name, content=:content"	
+						DREAD "users"
+						DSET "username=:username, nickname=:nickname"	
 						DWHERE "id=:id"
-						DBIND id=_UVARS("id"), name=_POST("name"), content=_POST("content")
+						DBIND id=_UVARS("id"), username=_POST("username"), content=_POST("nickname")
 						DEXEC
 					END DATA
 					DIV "alert"
@@ -23,7 +23,7 @@ BODY
 				END IF
 				DATA
 					DOPEN "kytschBASIC-CMS"
-					DREAD "pages"
+					DREAD "users"
 					DSELECT "*"	
 					DWHERE "id=:id"
 					DBIND id=_UVARS("id")
@@ -41,23 +41,18 @@ BODY
 					FORM "form_save", "POST"
 						DIV "form-header"
 							PRINT "Details"
+							PRINT " required fields*", "required"
 						END DIV
 						DIV "form-body"
 							DIV "form-group"
-								PRINT "Name"
-								TEXTINPUT "name",data&[0]["name"],"form-input", "Please enter a name"
+								PRINT "Username"
+								PRINT "*", "required"
+								TEXTINPUT "username",data&[0]["username"],"form-input", "Please enter a name",,true
 							END DIV
 							DIV "form-group"
-								PRINT "Path/URL"
-								TEXTINPUT "path",data&[0]["path"],"form-input", "Please enter a path/URL"
-							END DIV
-							DIV "form-group"
-								PRINT "Title"
-								TEXTINPUT "title",data&[0]["title"],"form-input", "Please enter a title"
-							END DIV
-							DIV "form-group"
-								PRINT "Content"
-								TEXTAREA "content",data&[0]["content"], "form-input", "Please enter some page content"
+								PRINT "Nickname"
+								PRINT "*", "required"
+								TEXTINPUT "nickname",data&[0]["nickname"],"form-input", "Please enter a nickname",,true
 							END DIV
 						END DIV
 						DIV "form-footer"
