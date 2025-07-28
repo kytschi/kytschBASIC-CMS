@@ -17,18 +17,21 @@ BODY
 				END DATA
 				DIV "page-toolbar"
 					LINK "/kb-cms/users/add","Create a user","btn-icon"
-                        PRINT "Add"
-                    END LINK
+						IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add button"
+						PRINT "Add"
+					END LINK
 				END DIV
 				FORM "form_save", "POST"
-					DIV "form-header"
-						PRINT "Users"
-					END DIV
-					DIV "form-body"
-						DEF list_headings$=("Username", "Status")
-						DEF list_vars$=("username", "status")
-						DEF list_edit_link$="/kb-cms/users/edit"
-						LOAD "_ROOT/../cms/shared/list"
+					DIV "box"
+						DIV "box-header"
+							PRINT "Users"
+						END DIV
+						DIV "box-body"
+							DEF list_headings$=("Username", "Status")
+							DEF list_vars$=("username", "status")
+							DEF list_edit_link$="/kb-cms/users/edit"
+							LOAD "_ROOT/../cms/shared/list"
+						END DIV
 					END DIV
 				END FORM
 			END DIV

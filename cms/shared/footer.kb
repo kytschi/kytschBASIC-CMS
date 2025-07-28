@@ -7,7 +7,7 @@ FOOTER
 			PRINT " "
 			VERSION
 		END DIV
-		DIV "kb-col kb-col-12 text-right"
+		DIV "kb-col kb-col-12 form-footer-buttons"
 			LINK "https://kytschi.com","Checkout Kytschi",,"_blank"
 				PRINT "Created by Mike Welsh"
 			END LINK

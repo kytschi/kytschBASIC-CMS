@@ -24,11 +24,11 @@ BODY
 					END IF
 
 					IF missing_fields%=1 THEN
-						DIV "alert"
+						DIV "alert alert-danger"
 							PRINT "Missing required fields"
 						END DIV
 					ELSEIF invalid_pass%=1 THEN
-						DIV "alert"
+						DIV "alert alert-danger"
 							PRINT "Passwords do not match"
 						END DIV
 					ELSE
@@ -40,7 +40,7 @@ BODY
 							DBIND username=_POST("username"), password=password$, user_id="00000000-0000-0000-0000-000000000000"
 							DEXEC
 						END DATA
-						DIV "alert"
+						DIV "alert alert-info"
 							PRINT "Entry has been created"
 						END DIV
 					END IF
@@ -48,64 +48,71 @@ BODY
 				HEADING 2
 					PRINT "Add a user"
 				END HEADING 2
-				DIV "page-toolbar"
-					DIV "kb-col-12"
-						DIV
-							LINK "/kb-cms/users","Back to the list","btn-icon"
-								PRINT "Back"
-							END LINK
+				FORM "form_save", "POST"
+					DIV "page-toolbar"
+						DIV "kb-col-12"
+							DIV
+								LINK "/kb-cms/users","Back to the list","btn-icon"
+									IMAGE "/themes/cms/default/imgs/arrow-left.svg", "Back button"
+									PRINT "Back"
+								END LINK
+							END DIV
+						END DIV
+						DIV "kb-col-12 box-footer-buttons"
+							BUTTON SUBMIT "btn_save","btn-icon"
+								IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
+								PRINT "Save"
+							END BUTTON
 						END DIV
 					END DIV
-					DIV "kb-col-12 form-footer-buttons"
-						BUTTON SUBMIT "btn_save",,,, "Save"
-					END DIV
-				END DIV
-				DIV
-					FORM "form_save", "POST"
-						DIV "form-header"
+					DIV "box"
+						DIV "box-header"
 							PRINT "Details"
 							PRINT " required fields*", "required"
 						END DIV
-						DIV "form-body"
-							DIV "form-group"
+						DIV "box-body"
+							DIV "input-group"
 								SWRITE
 									PRINT "Username"
 									PRINT "*", "required"
 								END SWRITE
-								TEXTINPUT "username",,"form-input", "Please enter a username",,true
+								TEXTINPUT "username",,,"Please enter a username",,true
 							END DIV
-							DIV "form-group"
+							DIV "input-group"
 								SWRITE
 									PRINT "Nickname"
 									PRINT "*", "required"
 								END SWRITE
-								TEXTINPUT "nickname",,"form-input", "Please enter a nickname",,true
+								TEXTINPUT "nickname",,,"Please enter a nickname",,true
 							END DIV
-							DIV "form-group"
+							DIV "input-group"
 								SWRITE
 									PRINT "Password"
 									PRINT "*", "required"
 								END SWRITE
-								PASSWORDINPUT "password",,"form-input", "Please enter a password",,true
+								PASSWORDINPUT "password",,,"Please enter a password",,true
 							END DIV
-							DIV "form-group"
+							DIV "input-group"
 								SWRITE
 									PRINT "Password check"
 									PRINT "*", "required"
 								END SWRITE
-								PASSWORDINPUT "password_check",,"form-input", "Please re-enter a password",,true
+								PASSWORDINPUT "password_check",,,"Please re-enter a password",,true
 							END DIV
 						END DIV
-						DIV "form-footer"
+						DIV "box-footer"
 							DIV
 								PRINT " required fields*", "required"
 							END DIV
-							DIV "form-footer-buttons"
-								BUTTON SUBMIT "btn_save",,,, "Save"
+							DIV "box-footer-buttons"
+								BUTTON SUBMIT "btn_save","btn-icon"
+									IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
+									PRINT "Save"
+								END BUTTON
 							END DIV
-						END DIV
-					END FORM
-				END DIV
+						END DIV					
+					END DIV
+				END FORM
 			END DIV
 		END DIV
 		LOAD "_ROOT/../cms/shared/footer"

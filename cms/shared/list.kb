@@ -21,9 +21,11 @@ TABLE
                 NEXT
                 TCELL
                     DIV "list-tools"
-                        LET list_edit_link$=list_edit_link$+"/"+item&("id")
+                        DEF list_edit$=""
+                        LET list_edit$=list_edit_link$+"/"+item&("id")
                         DIV
-                            LINK list_edit_link$,"Edit the entry","nav-link"
+                            LINK list_edit$,"Edit the entry","btn-icon"
+                                IMAGE "/themes/cms/default/imgs/pencil.svg", "Edit button"
                                 PRINT "Edit"
                             END LINK
                         END DIV

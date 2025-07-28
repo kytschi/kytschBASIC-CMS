@@ -16,69 +16,76 @@ BODY
 						DBIND name=_POST("name"), content=_POST("content"), title=_POST("title"), path=_POST("path"), user_id="00000000-0000-0000-0000-000000000000"
 						DEXEC
 					END DATA
-					DIV "alert"
+					DIV "alert alert-info"
 						PRINT "Entry has been created"
 					END DIV
 				END IF
 				HEADING 2
 					PRINT "Create a page"
 				END HEADING 2
-				DIV "page-toolbar"
-					DIV "kb-col-12"
-						DIV
-							LINK "/kb-cms/pages","Back to the list","btn-icon"
-								PRINT "Back"
-							END LINK
+				FORM "form_save", "POST"
+					DIV "page-toolbar"
+						DIV "kb-col-12"
+							DIV
+								LINK "/kb-cms/pages","Back to the list","btn-icon"
+									IMAGE "/themes/cms/default/imgs/arrow-left.svg", "Back button"
+									PRINT "Back"
+								END LINK
+							END DIV
+						END DIV
+						DIV "kb-col-12 box-footer-buttons"
+							BUTTON SUBMIT "btn_save","btn-icon"
+								IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
+								PRINT "Save"
+							END BUTTON
 						END DIV
 					END DIV
-					DIV "kb-col-12 form-footer-buttons"
-						BUTTON SUBMIT "btn_save",,,, "Save"
-					END DIV
-				END DIV
-				DIV
-					FORM "form_save", "POST"
-						DIV "form-header"
+					DIV "box"
+						DIV "box-header"
 							PRINT "Details"
 						END DIV
-						DIV "form-body"
-							DIV "form-group"
+						DIV "box-body"
+							DIV "input-group"
 								SWRITE
 									PRINT "Name"
 									PRINT "*", "required"
 								END SWRITE
-								TEXTINPUT "name",,"form-input", "Please enter a name",,true
+								TEXTINPUT "name",,, "Please enter a name",,true
 							END DIV
-							DIV "form-group"
+							DIV "input-group"
 								SWRITE
 									PRINT "Path/URL"
 									PRINT "*", "required"
 								END SWRITE
-								TEXTINPUT "path",,"form-input", "Please enter a path/URL",,true
+								TEXTINPUT "path",,, "Please enter a path/URL",,true
 							END DIV
-							DIV "form-group"
+							DIV "input-group"
 								SWRITE
 									PRINT "Title"
 									PRINT "*", "required"
 								END SWRITE
-								TEXTINPUT "title",,"form-input", "Please enter a title",,true
+								TEXTINPUT "title",,, "Please enter a title",,true
 							END DIV
-							DIV "form-group"
+							DIV "input-group"
 								SWRITE
 									PRINT "Content"
 								END SWRITE
-								TEXTAREA "content",, "form-input", "Please enter some page content"
+								TEXTAREA "content",,, "Please enter some page content"
 							END DIV
 						END DIV
-						DIV "form-footer"
+						DIV "box-footer"
 							DIV
 								PRINT " required fields*", "required"
 							END DIV
-							DIV "form-footer-buttons"
-								BUTTON SUBMIT "btn_save",,,, "Save"
+							DIV "box-footer-buttons"
+								BUTTON SUBMIT "btn_save","btn-icon"
+									IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
+									PRINT "Save"
+								END BUTTON
 							END DIV
-						END DIV
-					END FORM
-				END DIV
+						END DIV						
+					END DIV
+				END FORM
 			END DIV
 		END DIV
 		LOAD "_ROOT/../cms/shared/footer"

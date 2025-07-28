@@ -20,7 +20,7 @@ BODY
 					NEXT
 
 					IF missing_fields%=1 THEN
-						DIV "alert"
+						DIV "alert alert-danger"
 							PRINT "Missing required fields"
 						END DIV
 					ELSE
@@ -48,44 +48,47 @@ BODY
 								SESSWRITE "user", user&
 								GOTO "/kb-cms"
 							ELSE
-								DIV "alert"
+								DIV "alert alert-danger"
 									PRINT "Invalid login"
 								END DIV
 							END IF
 						ELSE
-							DIV "alert"
+							DIV "alert alert-danger"
 								PRINT "Invalid login"
 							END DIV
 						END IF
 					END IF
 				END IF
-				DIV
-					FORM "form_save", "POST"
-						DIV "form-header"
+				FORM "form_save", "POST"
+					DIV "box"
+						DIV "box-header"
 							PRINT "Login"
 						END DIV
-						DIV "form-body"
-							DIV "form-group"
+						DIV "box-body"
+							DIV "input-group"
 								SWRITE
 									PRINT "Username"
 									PRINT "*", "required"
 								END SWRITE
-								TEXTINPUT "username",,"form-input", "Please enter a username",,true
+								TEXTINPUT "username",,,"Please enter a username",,true
 							END DIV
-							DIV "form-group"
+							DIV "input-group"
 								SWRITE
 									PRINT "Password"
 									PRINT "*", "required"
 								END SWRITE
-								PASSWORDINPUT "password",,"form-input", "Please enter a password",,true
+								PASSWORDINPUT "password",,,"Please enter a password",,true
 							END DIV
 						END DIV
-						DIV "form-footer"
+						DIV "box-footer"
 							DIV
 								PRINT " required fields*", "required"
 							END DIV
-							DIV "form-footer-buttons"
-								BUTTON SUBMIT "btn_save",,,, "Login"
+							DIV "box-footer-buttons"
+								BUTTON SUBMIT "btn_save","btn-icon"
+									IMAGE "/themes/cms/default/imgs/box-arrow-in-right.svg", "Login button"
+									PRINT "Logn"
+								END BUTTON
 							END DIV
 						END DIV
 					END FORM
