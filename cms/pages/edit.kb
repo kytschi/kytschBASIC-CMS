@@ -30,12 +30,19 @@ BODY
 					DFETCH data&
 				END DATA
 				HEADING 2
-					PRINT "Page edit"
+					PRINT "Edit the page"
 				END HEADING 2
 				DIV "page-toolbar"
-					LINK "/kb-cms/pages","Back to the list","btn-icon"
-                        PRINT "Back"
-                    END LINK
+					DIV "kb-col-12"
+						DIV
+							LINK "/kb-cms/pages","Back to the list","btn-icon"
+								PRINT "Back"
+							END LINK
+						END DIV
+					END DIV
+					DIV "kb-col-12 form-footer-buttons"
+						BUTTON SUBMIT "btn_save",,,, "Save"
+					END DIV
 				END DIV
 				DIV
 					FORM "form_save", "POST"
@@ -44,16 +51,25 @@ BODY
 						END DIV
 						DIV "form-body"
 							DIV "form-group"
-								PRINT "Name"
-								TEXTINPUT "name",data&[0]["name"],"form-input", "Please enter a name"
+								SWRITE
+									PRINT "Name"
+									PRINT "*", "required"
+								END SWRITE
+								TEXTINPUT "name",data&[0]["name"],"form-input", "Please enter a name",,true
 							END DIV
 							DIV "form-group"
-								PRINT "Path/URL"
-								TEXTINPUT "path",data&[0]["path"],"form-input", "Please enter a path/URL"
+								SWRITE
+									PRINT "Path/URL"
+									PRINT "*", "required"
+								END SWRITE
+								TEXTINPUT "path",data&[0]["path"],"form-input", "Please enter a path/URL",,true
 							END DIV
 							DIV "form-group"
-								PRINT "Title"
-								TEXTINPUT "title",data&[0]["title"],"form-input", "Please enter a title"
+								SWRITE
+									PRINT "Title"
+									PRINT "*", "required"
+								END SWRITE
+								TEXTINPUT "title",data&[0]["title"],"form-input", "Please enter a title",,true
 							END DIV
 							DIV "form-group"
 								PRINT "Content"
@@ -61,7 +77,12 @@ BODY
 							END DIV
 						END DIV
 						DIV "form-footer"
-							BUTTON SUBMIT "btn_save",,,, "Save"
+							DIV
+								PRINT " required fields*", "required"
+							END DIV
+							DIV "form-footer-buttons"
+								BUTTON SUBMIT "btn_save",,,, "Save"
+							END DIV
 						END DIV
 					END FORM
 				END DIV

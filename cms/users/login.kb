@@ -59,30 +59,34 @@ BODY
 						END IF
 					END IF
 				END IF
-				HEADING 2
-					PRINT "Login"
-				END HEADING 2
 				DIV
 					FORM "form_save", "POST"
-						
 						DIV "form-header"
 							PRINT "Login"
-							PRINT " required fields*", "required"
 						END DIV
 						DIV "form-body"
 							DIV "form-group"
-								PRINT "Username"
-								PRINT "*", "required"
+								SWRITE
+									PRINT "Username"
+									PRINT "*", "required"
+								END SWRITE
 								TEXTINPUT "username",,"form-input", "Please enter a username",,true
 							END DIV
 							DIV "form-group"
-								PRINT "Password"
-								PRINT "*", "required"
+								SWRITE
+									PRINT "Password"
+									PRINT "*", "required"
+								END SWRITE
 								PASSWORDINPUT "password",,"form-input", "Please enter a password",,true
 							END DIV
 						END DIV
 						DIV "form-footer"
-							BUTTON SUBMIT "btn_save",,,, "Save"
+							DIV
+								PRINT " required fields*", "required"
+							END DIV
+							DIV "form-footer-buttons"
+								BUTTON SUBMIT "btn_save",,,, "Login"
+							END DIV
 						END DIV
 					END FORM
 				END DIV

@@ -46,12 +46,19 @@ BODY
 					END IF
 				END IF
 				HEADING 2
-					PRINT "User add"
+					PRINT "Add a user"
 				END HEADING 2
 				DIV "page-toolbar"
-					LINK "/kb-cms/users","Back to the list","btn-icon"
-                        PRINT "Back"
-                    END LINK
+					DIV "kb-col-12"
+						DIV
+							LINK "/kb-cms/users","Back to the list","btn-icon"
+								PRINT "Back"
+							END LINK
+						END DIV
+					END DIV
+					DIV "kb-col-12 form-footer-buttons"
+						BUTTON SUBMIT "btn_save",,,, "Save"
+					END DIV
 				END DIV
 				DIV
 					FORM "form_save", "POST"
@@ -61,28 +68,41 @@ BODY
 						END DIV
 						DIV "form-body"
 							DIV "form-group"
-								PRINT "Username"
-								PRINT "*", "required"
+								SWRITE
+									PRINT "Username"
+									PRINT "*", "required"
+								END SWRITE
 								TEXTINPUT "username",,"form-input", "Please enter a username",,true
 							END DIV
 							DIV "form-group"
-								PRINT "Nickname"
-								PRINT "*", "required"
+								SWRITE
+									PRINT "Nickname"
+									PRINT "*", "required"
+								END SWRITE
 								TEXTINPUT "nickname",,"form-input", "Please enter a nickname",,true
 							END DIV
 							DIV "form-group"
-								PRINT "Password"
-								PRINT "*", "required"
+								SWRITE
+									PRINT "Password"
+									PRINT "*", "required"
+								END SWRITE
 								PASSWORDINPUT "password",,"form-input", "Please enter a password",,true
 							END DIV
 							DIV "form-group"
-								PRINT "Password check"
-								PRINT "*", "required"
+								SWRITE
+									PRINT "Password check"
+									PRINT "*", "required"
+								END SWRITE
 								PASSWORDINPUT "password_check",,"form-input", "Please re-enter a password",,true
 							END DIV
 						END DIV
 						DIV "form-footer"
-							BUTTON SUBMIT "btn_save",,,, "Save"
+							DIV
+								PRINT " required fields*", "required"
+							END DIV
+							DIV "form-footer-buttons"
+								BUTTON SUBMIT "btn_save",,,, "Save"
+							END DIV
 						END DIV
 					END FORM
 				END DIV

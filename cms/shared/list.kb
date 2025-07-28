@@ -20,10 +20,14 @@ TABLE
                     END TCELL
                 NEXT
                 TCELL
-                    LET list_edit_link$=list_edit_link$+"/"+item&("id")
-                    LINK list_edit_link$,"Edit the entry","nav-link"
-                        PRINT "Edit"
-                    END LINK
+                    DIV "list-tools"
+                        LET list_edit_link$=list_edit_link$+"/"+item&("id")
+                        DIV
+                            LINK list_edit_link$,"Edit the entry","nav-link"
+                                PRINT "Edit"
+                            END LINK
+                        END DIV
+                    END DIV
                 END TCELL
             END TROW
         NEXT

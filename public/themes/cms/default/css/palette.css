@@ -46,6 +46,15 @@ a:focus, a:active {
     border: 0;
 }
 
+button {
+    padding: 10px 15px;
+}
+
+.btn-back {
+    display: flex;
+    align-items: flex-start !important;
+}
+
 .no-link:hover {
     text-decoration: none !important;
 }
@@ -260,6 +269,12 @@ th, td {
 	padding: 10px;
 }
 
+.list-tools {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
 .text-right {
 	text-align: right;
 }
@@ -267,6 +282,68 @@ th, td {
 .required {
     font-size: 0.8em;
     color: #d14;
+}
+
+form, .page-toolbar {
+    border: 1px #000 solid;
+    margin-bottom: 10px;
+}
+
+form textarea {
+    min-height: 400px;
+}
+
+.page-toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.form-header {
+    display: flex;
+    gap: 5px;
+    padding: 20px;
+    background-color: #d14;
+    color: #fff;
+}
+
+.form-body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group p {
+    padding: 0 0 5px 0;
+    margin: 0;
+}
+
+.form-group input {
+    line-height: 1.6rem;
+    width: calc(100% - 10px);
+}
+
+.form-footer {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}
+
+.form-footer div {
+    width: 50%;
+}
+
+.form-footer-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 @media only screen and (max-width: 1024px) {

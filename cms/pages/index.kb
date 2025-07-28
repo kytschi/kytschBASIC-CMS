@@ -15,20 +15,22 @@ BODY
 					DSORT "pages.name ASC"
 					DFETCH list&
 				END DATA
-				HEADING 2
-					PRINT "Pages"
-				END HEADING 2
 				DIV "page-toolbar"
 					LINK "/kb-cms/pages/add","Create a page","btn-icon"
                         PRINT "Add"
                     END LINK
 				END DIV
-				DIV
-					DEF list_headings$=("Name", "Path")
-					DEF list_vars$=("name", "path")
-					DEF list_edit_link$="/kb-cms/pages/edit"
-					LOAD "_ROOT/../cms/shared/list"
-				END DIV
+				FORM "form_save", "POST"
+					DIV "form-header"
+						PRINT "Pages"
+					END DIV
+					DIV "form-body"
+						DEF list_headings$=("Name", "Path")
+						DEF list_vars$=("name", "path")
+						DEF list_edit_link$="/kb-cms/pages/edit"
+						LOAD "_ROOT/../cms/shared/list"
+					END DIV
+				END FORM
 			END DIV
 		END DIV
 		LOAD "_ROOT/../cms/shared/footer"
