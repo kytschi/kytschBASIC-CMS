@@ -80,6 +80,18 @@ BODY
 					SESSWRITE "session_message", "File has been deleted"
 					GOTO "/kb-cms/pages/edit/" + _UVARS("id")
 				END IF
+				IFNTE _POST("btn_active") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "pages"
+						DSET "status=:status"
+						DBIND id=_UVARS("id"), status=_POST("btn_active")
+						DWHERE "id=:id"
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Entry has been marked as " + _POST("btn_active")
+					GOTO "/kb-cms/pages/edit/" + _UVARS("id")
+				END IF
 				DATA
 					DOPEN "kytschBASIC-CMS"
 					DREAD "pages"
@@ -124,7 +136,17 @@ BODY
 									PRINT "Delete"
 								END BUTTON
 							END IF
-							
+							IF data&[0]["status"]="active" THEN
+								BUTTON SUBMIT "btn_active","btn-icon",,"inactive"
+									IMAGE "/themes/cms/default/imgs/cloud-minus.svg", "Deactive button"
+									PRINT "Deactive"
+								END BUTTON
+							ELSE
+								BUTTON SUBMIT "btn_active","btn-icon",,"active"
+									IMAGE "/themes/cms/default/imgs/cloud-check.svg", "Active button"
+									PRINT "Active"
+								END BUTTON
+							END IF
 							BUTTON SUBMIT "btn_save","btn-icon"
 								IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
 								PRINT "Save"
@@ -176,6 +198,17 @@ BODY
 									BUTTON SUBMIT "btn_delete","btn-icon"
 										IMAGE "/themes/cms/default/imgs/trash.svg", "Delete button"
 										PRINT "Delete"
+									END BUTTON
+								END IF
+								IF data&[0]["status"]="active" THEN
+									BUTTON SUBMIT "btn_active","btn-icon",,"inactive"
+										IMAGE "/themes/cms/default/imgs/cloud-minus.svg", "Deactive button"
+										PRINT "Deactive"
+									END BUTTON
+								ELSE
+									BUTTON SUBMIT "btn_active","btn-icon",,"active"
+										IMAGE "/themes/cms/default/imgs/cloud-check.svg", "Active button"
+										PRINT "Active"
 									END BUTTON
 								END IF
 								BUTTON SUBMIT "btn_save","btn-icon"
