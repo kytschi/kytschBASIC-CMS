@@ -341,6 +341,11 @@ th, td {
     margin-bottom: 20px;
 }
 
+.page-toolbar .kb-col-12 {
+    display: flex;
+    gap: 15px;
+}
+
 .box textarea {
     min-height: 400px;
 }

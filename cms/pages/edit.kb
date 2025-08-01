@@ -44,6 +44,30 @@ BODY
 					SESSWRITE "session_message", "File has been uploaded"
 					GOTO "/kb-cms/pages/edit/" + _UVARS("id")
 				END IF
+				IFNTE _POST("btn_delete") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "pages"
+						DSET "deleted_by=:user_id, updated_by=:user_id, deleted_at=NOW(), updated_at=NOW(), status='deleted'"
+						DBIND id=_UVARS("id"), user_id=valid_user&[0]["id"]
+						DWHERE "id=:id"
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Entry has been marked as deleted"
+					GOTO "/kb-cms/pages/edit/" + _UVARS("id")
+				END IF
+				IFNTE _POST("btn_recover") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "pages"
+						DSET "deleted_by=NULL, updated_by=:user_id, deleted_at=NULL, updated_at=NOW(), status='active'"
+						DBIND id=_UVARS("id"), user_id=valid_user&[0]["id"]
+						DWHERE "id=:id"
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Entry has been recovered"
+					GOTO "/kb-cms/pages/edit/" + _UVARS("id")
+				END IF
 				IFNTE _POST("btn_delete_file") THEN
 					DATA
 						DOPEN "kytschBASIC-CMS"
@@ -67,6 +91,11 @@ BODY
 				HEADING 2
 					PRINT "Edit the page"
 				END HEADING 2
+				IF data&[0]["deleted_at"] THEN
+					DIV "alert alert-danger"
+						PRINT "Entry marked as deleted"
+					END DIV
+				END IF
 				FORM "form_save", "POST",,,true
 					DIV "page-toolbar"
 						DIV "kb-col-12"
@@ -76,12 +105,26 @@ BODY
 									PRINT "Back"
 								END LINK
 							END DIV
+							DIV
+								LINK "/kb-cms/pages/add","Create a page","btn-icon"
+									IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add button"
+									PRINT "Add"
+								END LINK
+							END DIV
 						END DIV
 						DIV "kb-col-12 box-footer-buttons"
-							LINK "/kb-cms/pages/add","Create a page","btn-icon"
-								IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add button"
-								PRINT "Add"
-							END LINK
+							IF data&[0]["deleted_at"] THEN
+								BUTTON SUBMIT "btn_recover","btn-icon"
+									IMAGE "/themes/cms/default/imgs/recycle.svg", "Recover button"
+									PRINT "Recover"
+								END BUTTON
+							ELSE
+								BUTTON SUBMIT "btn_delete","btn-icon"
+									IMAGE "/themes/cms/default/imgs/trash.svg", "Delete button"
+									PRINT "Delete"
+								END BUTTON
+							END IF
+							
 							BUTTON SUBMIT "btn_save","btn-icon"
 								IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
 								PRINT "Save"
@@ -124,6 +167,17 @@ BODY
 								PRINT " required fields*", "required"
 							END DIV
 							DIV "box-footer-buttons"
+								IF data&[0]["deleted_at"] THEN
+									BUTTON SUBMIT "btn_recover","btn-icon"
+										IMAGE "/themes/cms/default/imgs/recycle.svg", "Recover button"
+										PRINT "Recover"
+									END BUTTON
+								ELSE
+									BUTTON SUBMIT "btn_delete","btn-icon"
+										IMAGE "/themes/cms/default/imgs/trash.svg", "Delete button"
+										PRINT "Delete"
+									END BUTTON
+								END IF
 								BUTTON SUBMIT "btn_save","btn-icon"
 									IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
 									PRINT "Save"

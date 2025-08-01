@@ -27,8 +27,8 @@ BODY
 							PRINT "Pages"
 						END DIV
 						DIV "box-body"
-							DEF list_headings$=("Name", "Path")
-							DEF list_vars$=("name", "path")
+							DEF list_headings$=("Name", "Path", "Status")
+							DEF list_vars$=("name", "path", "status")
 							DEF list_edit_link$="/kb-cms/pages/edit"
 							LOAD "_ROOT/../cms/shared/list"
 						END DIV
