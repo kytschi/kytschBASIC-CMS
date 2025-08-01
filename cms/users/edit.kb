@@ -12,9 +12,9 @@ BODY
 					DATA
 						DOPEN "kytschBASIC-CMS"
 						DREAD "users"
-						DSET "username=:username, nickname=:nickname"	
+						DSET "username=:username, nickname=:nickname, updated_by=:updated_by, updated_at=NOW()"	
 						DWHERE "id=:id"
-						DBIND id=_UVARS("id"), username=_POST("username"), content=_POST("nickname")
+						DBIND id=_UVARS("id"), username=_POST("username"), content=_POST("nickname"), updated_by=valid_user&[0]["id"]
 						DEXEC
 					END DATA
 					DIV "alert alert-info"

@@ -37,7 +37,7 @@ BODY
 							DOPEN "kytschBASIC-CMS"
 							DREAD "users"
 							DINSERT "username=:username,password=:password, group_id='0', created_by=:user_id, updated_by=:user_id"
-							DBIND username=_POST("username"), password=password$, user_id="00000000-0000-0000-0000-000000000000"
+							DBIND username=_POST("username"), password=password$, user_id=valid_user&[0]["id"]
 							DEXEC
 						END DATA
 						DIV "alert alert-info"

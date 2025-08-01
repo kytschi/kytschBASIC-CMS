@@ -5,21 +5,56 @@ HEAD
 END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
+	LOAD "_ROOT/assets/js/jquery/jquery.min.js"
+	LOAD "_ROOT/assets/js/trumbowyg/trumbowyg.min.js"
+	PALETTE "/assets/js/trumbowyg/ui/trumbowyg.min"
 	MAIN
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
+				DEF session_message$=SESSREAD("session_message")
+				IF session_message$ THEN
+					SESSCLEAR "session_message"
+					DIV "alert alert-info"
+						PRINT session_message$
+					END DIV
+				END IF
 				IFNTE _POST("btn_save") THEN
 					DATA
 						DOPEN "kytschBASIC-CMS"
 						DREAD "pages"
-						DSET "name=:name, content=:content"	
+						DSET "name=:name, content=:content, title=:title, path=:path, created_by=:user_id, updated_by=:user_id"
 						DWHERE "id=:id"
-						DBIND id=_UVARS("id"), name=_POST("name"), content=_POST("content")
+						DBIND id=_UVARS("id"), name=_POST("name"), title=_POST("title"),  path=_POST("path"), content=_POST("content"), user_id=valid_user&[0]["id"]
 						DEXEC
 					END DATA
-					DIV "alert alert-info"
-						PRINT "Entry has been updated"
-					END DIV
+					SESSWRITE "session_message", "Entry has been updated"
+					GOTO "/kb-cms/pages/edit/" + _UVARS("id")
+				END IF
+				IFNTE _POST("btn_upload") THEN
+					DEF filename$=UUID("generate")
+					LET filename$=filename$ + "-" + _FILES("file")("name")
+					COPYUPLOAD "file", "_ROOT/dump/" + filename$
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "files"
+						DINSERT "resource='page', resource_id=:id, name=:name, filename=:filename, mime_type=:mime_type, created_by=:user_id, updated_by=:user_id"
+						DBIND id=_UVARS("id"), name=_FILES("file")("name"), filename=filename$, mime_type=_FILES("file")("type"), user_id=valid_user&[0]["id"]
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "File has been uploaded"
+					GOTO "/kb-cms/pages/edit/" + _UVARS("id")
+				END IF
+				IFNTE _POST("btn_delete_file") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "files"
+						DSET "deleted_by=:user_id, updated_by=:user_id, deleted_at=NOW(), updated_at=NOW()"
+						DBIND id=_POST("btn_delete_file"), user_id=valid_user&[0]["id"]
+						DWHERE "id=:id"
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "File has been deleted"
+					GOTO "/kb-cms/pages/edit/" + _UVARS("id")
 				END IF
 				DATA
 					DOPEN "kytschBASIC-CMS"
@@ -32,7 +67,7 @@ BODY
 				HEADING 2
 					PRINT "Edit the page"
 				END HEADING 2
-				FORM "form_save", "POST"
+				FORM "form_save", "POST",,,true
 					DIV "page-toolbar"
 						DIV "kb-col-12"
 							DIV
@@ -81,7 +116,7 @@ BODY
 							END DIV
 							DIV "input-group"
 								PRINT "Content"
-								TEXTAREA "content",data&[0]["content"],,"Please enter some page content"
+								TEXTAREA "content",data&[0]["content"],,"Please enter some page content","trumbowyg"
 							END DIV
 						END DIV
 						DIV "box-footer"
@@ -96,10 +131,88 @@ BODY
 							END DIV
 						END DIV
 					END DIV
+					DIV "box"
+						DIV "box-header"
+							PRINT "Files"
+						END DIV
+						DIV "box-body"
+							DIV "input-group"
+								SWRITE
+									PRINT "File"
+								END SWRITE
+								FILEINPUT "file",,,"Please enter a file you wish to upload"
+							END DIV
+							DIV
+								DATA
+									DOPEN "kytschBASIC-CMS"
+									DREAD "files"
+									DSELECT "*"	
+									DWHERE "resource_id=:id AND deleted_at IS NULL"
+									DBIND id=_UVARS("id")
+									DFETCH files&
+								END DATA
+								TABLE
+									THEAD
+										TROW
+											THEADCELL
+												PRINT "&nbsp;"
+											END THEADCELL
+											THEADCELL
+												PRINT "Name"
+											END THEADCELL
+											THEADCELL
+												PRINT "Filename"
+											END THEADCELL											
+											THEADCELL
+												PRINT "&nbsp;"
+											END THEADCELL
+										END TROW
+									END THEAD
+									TBODY
+										FOR file& IN files&
+											TROW
+												TCELL ,"table-thumb"
+													IMAGE "/dump/" + file&("filename")
+												END TCELL
+												TCELL
+													PRINT file&("name")
+												END TCELL
+												TCELL
+													PRINT file&("filename")
+												END TCELL
+												TCELL
+													BUTTON SUBMIT "btn_delete_file","btn-icon",,file&("id")
+														IMAGE "/themes/cms/default/imgs/trash.svg", "Delete button"
+														PRINT "Delete"
+													END BUTTON
+												END TCELL
+											END TROW
+										NEXT
+									END TBODY
+								END TABLE
+							END DIV
+						END DIV
+						DIV "box-footer"
+							DIV
+								PRINT "&nbsp;"
+							END DIV
+							DIV "box-footer-buttons"
+								BUTTON SUBMIT "btn_upload","btn-icon"
+									IMAGE "/themes/cms/default/imgs/cloud-upload.svg", "Upload button"
+									PRINT "Upload"
+								END BUTTON
+							END DIV
+						END DIV
+					END DIV
 				END FORM
 			END DIV
 		END DIV
 		LOAD "_ROOT/../cms/shared/footer"
 	END MAIN
 END BODY
+JAVASCRIPT
+$(document).ready(function() {
+	$('#trumbowyg').trumbowyg();
+});
+END JAVASCRIPT
 END

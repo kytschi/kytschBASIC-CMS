@@ -8,7 +8,6 @@
     src: url("../fonts/IBMPlexSans.ttf") format("truetype");
 }
 
-
 html, body {
     background-color: #fff;
     color: #000;
@@ -46,19 +45,16 @@ a:focus, a:active {
     border: 0;
 }
 
-button {
+.btn-icon {
     background: none;
     border: none;
     font-size: 1em;
     cursor: pointer;
-}
-
-.btn-icon {
     display: flex;
     width: min-content;
     flex-direction: column;
     justify-content: center;
-    font-size: 1em;
+    align-items: center;
 }
 
 .btn-icon img {
@@ -297,8 +293,17 @@ p a {
 }
 
 table {
+    width: 100%;
 	border-spacing: 0px;
     min-width: 50%;
+}
+
+.table-thumb {
+    width: 100px;
+}
+
+.table-thumb img {
+    max-width: 100%;
 }
 
 .table-border td {
