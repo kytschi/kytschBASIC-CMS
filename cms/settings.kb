@@ -1,0 +1,131 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Settings | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				HEADING 2
+					PRINT "Settings"
+				END HEADING 2
+				IF session_message$ THEN
+					SESSCLEAR "session_message"
+					DIV "alert alert-info"
+						PRINT session_message$
+					END DIV
+				END IF
+				IFNTE _POST("btn_save") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "settings"
+						DSET "name=:name, domain=:domain, meta_keywords=:meta_keywords, meta_author=:meta_author, meta_description=:meta_description"
+						DWHERE "name IS NOT NULL"
+						DBIND name=_POST("name"), domain=_POST("domain"), meta_keywords=_POST("meta_keywords"), meta_author=_POST("meta_author"), meta_description=_POST("meta_description")
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Setting have been updated"
+					GOTO "/kb-cms/settings"
+				END IF
+				IFNTE _POST("btn_active") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "settings"
+						DSET "status=:status"
+						DWHERE "name IS NOT NULL"
+						DBIND status=_POST("btn_active")
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Setting have been updated"
+					GOTO "/kb-cms/settings"
+				END IF
+				DATA
+					DOPEN "kytschBASIC-CMS"
+					DREAD "settings"
+					DSELECT "*"	
+					DFETCH data&
+				END DATA
+				IF data&[0]["status"]="online" THEN
+					DIV "alert alert-success"
+						PRINT "Site is online"
+					END DIV
+				ELSE
+					DIV "alert alert-danger"
+						PRINT "Site is offline"
+					END DIV
+				END IF
+				FORM "form_save", "POST",,,true
+					DIV "page-toolbar"
+						DIV "kb-col-12"
+						END DIV
+						DIV "kb-col-12 box-footer-buttons"
+							IF data&[0]["status"]="online" THEN
+								BUTTONSUBMIT "btn_active","btn-icon",,"offline"
+									IMAGE "/themes/cms/default/imgs/cloud-minus.svg", "Mark as offline"
+									PRINT "Offline"
+								END BUTTON
+							ELSE
+								BUTTONSUBMIT "btn_active","btn-icon",,"online"
+									IMAGE "/themes/cms/default/imgs/cloud-check.svg", "Mark as online"
+									PRINT "Online"
+								END BUTTON
+							END IF
+							BUTTONSUBMIT "btn_save","btn-icon"
+								IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
+								PRINT "Save"
+							END BUTTON
+						END DIV
+					END DIV
+					DIV "box"
+						DIV "box-header"
+							PRINT "Site"
+						END DIV
+						DIV "box-body"
+							DIV "input-group"
+								SWRITE
+									PRINT "Name"
+									PRINT "*", "required"
+								END SWRITE
+								TEXTINPUT "name",data&[0]["name"],,"Please enter a name",,true
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Domain"
+									PRINT "*", "required"
+								END SWRITE
+								TEXTINPUT "domain",data&[0]["domain"],,"Please enter the site's domain",,true
+							END DIV
+						END DIV
+					END DIV
+					DIV "box"
+						DIV "box-header"
+							PRINT "Meta"
+						END DIV
+						DIV "box-body"
+							DIV "input-group"
+								SWRITE
+									PRINT "Meta keywords"
+								END SWRITE
+								TEXTINPUT "meta_keywords",data&[0]["meta_keywords"],,"Please enter a meta keywords"
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Meta author"
+								END SWRITE
+								TEXTINPUT "meta_author",data&[0]["meta_author"],,"Please enter a meta author"
+							END DIV
+							DIV "input-group"
+								PRINT "Meta description"
+								TEXTAREA "meta_description",data&[0]["meta_description"],"textarea-sm","Please enter a meta description"
+							END DIV
+						END DIV
+					END DIV
+				END FORM
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

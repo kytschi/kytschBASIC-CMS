@@ -350,6 +350,10 @@ th, td {
     min-height: 400px;
 }
 
+.box .textarea-sm {
+    min-height: 200px;
+}
+
 .box {
     border: 1px #000 solid;
     margin-bottom: 20px;
@@ -384,9 +388,15 @@ th, td {
     margin: 0;
 }
 
-.input-group input {
+.input-group input, .input-group select {
     line-height: 1.6rem;
     width: calc(100% - 10px);
+    height: 40px;
+}
+
+.input-group input[type=checkbox] {
+    width: 50px;
+    height: 20px;
 }
 
 .box-footer {

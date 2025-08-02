@@ -47,7 +47,7 @@ BODY
 								IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add button"
 								PRINT "Add"
 							END LINK
-							BUTTON SUBMIT "btn_save","btn-icon"
+							BUTTONSUBMIT "btn_save","btn-icon"
 								IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
 								PRINT "Save"
 							END BUTTON
@@ -79,7 +79,7 @@ BODY
 								PRINT " required fields*", "required"
 							END DIV
 							DIV "box-footer-buttons"
-								BUTTON SUBMIT "btn_save","btn-icon"
+								BUTTONSUBMIT "btn_save","btn-icon"
 									IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
 									PRINT "Save"
 								END BUTTON

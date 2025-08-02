@@ -1,0 +1,42 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Menus | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				DATA
+					DOPEN "kytschBASIC-CMS"
+					DREAD "menus"
+					DSELECT "*"					
+					DSORT "menus.sort ASC"
+					DFETCH list&
+				END DATA
+				FORM "form_save", "POST"
+					DIV "page-toolbar"
+						LINK "/kb-cms/menus/add","Create a menu item","btn-icon"
+							IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add a menu item"
+							PRINT "Add"
+						END LINK
+					END DIV
+					DIV "box"
+						DIV "box-header"
+							PRINT "Pages"
+						END DIV
+						DIV "box-body"
+							DEF list_headings$=("Name", "URL", "Sort", "Status")
+							DEF list_vars$=("name", "url", "sort", "status")
+							DEF list_edit_link$="/kb-cms/menus/edit"
+							LOAD "_ROOT/../cms/shared/list"
+						END DIV
+					END DIV
+				END FORM
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

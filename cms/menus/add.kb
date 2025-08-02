@@ -8,26 +8,35 @@ BODY
 	MAIN
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
-				IFNTE _POST("btn_save") THEN
-					DATA
-						DOPEN "kytschBASIC-CMS"
-						DREAD "pages"
-						DINSERT "name=:name, content=:content, title=:title, path=:path, created_by=:user_id, updated_by=:user_id"
-						DBIND name=_POST("name"), content=_POST("content"), title=_POST("title"), path=_POST("path"), user_id="00000000-0000-0000-0000-000000000000"
-						DEXEC
-					END DATA
+				IF session_message$ THEN
+					SESSCLEAR "session_message"
 					DIV "alert alert-info"
-						PRINT "Entry has been created"
+						PRINT session_message$
 					END DIV
 				END IF
+				IFNTE _POST("btn_save") THEN
+					DEF new_window%=0
+					IFNTE _POST("new_window") THEN 
+						LET new_window%=1
+					END IF
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "menus"
+						DINSERT "name=:name, url=:url, new_window=:new_window, page_id=:page_id, created_by=:user_id, updated_by=:user_id"
+						DBIND name=_POST("name"), url=_POST("url"), new_window=new_window%, page_id=_POST("page_id"), user_id=valid_user&[0]["id"]
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Entry has been created"
+					GOTO "/kb-cms/menus/add"
+				END IF
 				HEADING 2
-					PRINT "Create a page"
+					PRINT "Create a menu item"
 				END HEADING 2
 				FORM "form_save", "POST"
 					DIV "page-toolbar"
 						DIV "kb-col-12"
 							DIV
-								LINK "/kb-cms/pages","Back to the list","btn-icon"
+								LINK "/kb-cms/menus","Back to the list","btn-icon"
 									IMAGE "/themes/cms/default/imgs/arrow-left.svg", "Back button"
 									PRINT "Back"
 								END LINK
@@ -54,23 +63,39 @@ BODY
 							END DIV
 							DIV "input-group"
 								SWRITE
-									PRINT "Path/URL"
-									PRINT "*", "required"
+									PRINT "Page"
 								END SWRITE
-								TEXTINPUT "path",,, "Please enter a path/URL",,true
+								DATA
+									DOPEN "kytschBASIC-CMS"
+									DREAD "pages"
+									DSELECT "*"					
+									DSORT "pages.name ASC"
+									DFETCH pages&
+								END DATA
+								SELECTINPUT "page_id",, "form-input", "Please select a page"
+									SELECTINPUTOPT "", "No page"
+									FOR page& IN pages&
+										SELECTINPUTOPT page&["id"], page&["name"]
+									NEXT
+								END SELECTINPUT
 							END DIV
 							DIV "input-group"
 								SWRITE
-									PRINT "Title"
-									PRINT "*", "required"
+									PRINT "External URL"
 								END SWRITE
-								TEXTINPUT "title",,, "Please enter a title",,true
+								TEXTINPUT "url",,, "Please enter a external URL"
 							END DIV
 							DIV "input-group"
 								SWRITE
-									PRINT "Content"
+									PRINT "Open in new window"
 								END SWRITE
-								TEXTAREA "content",,, "Please enter some page content"
+								CHECKINPUT "new_window",,, "Please check if you want the menu item to open in a new window"
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Order number"
+								END SWRITE
+								TEXTINPUT "sort",,, "Please enter a order number to help order the menu items"
 							END DIV
 						END DIV
 						DIV "box-footer"

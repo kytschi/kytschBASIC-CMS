@@ -1,15 +1,6 @@
-DATA
-	DOPEN "kytschBASIC-CMS"
-	DREAD "pages"
-	DSELECT "*"	
-	DWHERE "path=:path AND status='active' AND deleted_at IS NULL"
-	DBIND path="_PATH"
-	DFETCH page&
-END DATA
 LANG "en"
 HEAD
 	LOAD "_ROOT/../website/shared/head"
-	NAME page&[0]["title"]
 END HEAD
 BODY
 	LOAD "_ROOT/../website/shared/header"

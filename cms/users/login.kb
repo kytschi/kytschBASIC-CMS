@@ -85,7 +85,7 @@ BODY
 								PRINT " required fields*", "required"
 							END DIV
 							DIV "box-footer-buttons"
-								BUTTON SUBMIT "btn_save","btn-icon"
+								BUTTONSUBMIT "btn_save","btn-icon"
 									IMAGE "/themes/cms/default/imgs/box-arrow-in-right.svg", "Login button"
 									PRINT "Logn"
 								END BUTTON

@@ -1,10 +1,11 @@
 DATA
 	DOPEN "kytschBASIC-CMS"
-	DREAD "pages"
-	DSELECT "*"	
-	DWHERE "status='active' AND deleted_at IS NULL"
-	DSORT "created_at ASC"
-	DFETCH data&
+	DREAD "menus"
+	DSELECT "menus.*, pages.path"	
+	DLJOIN "pages ON pages.id=menus.page_id AND pages.deleted_at IS NULL"
+	DWHERE "menus.status='active' AND menus.deleted_at IS NULL"
+	DSORT "menus.sort ASC"
+	DFETCH menus&
 END DATA
 HEADER
 	HEADING 1
@@ -12,9 +13,13 @@ HEADER
 		PRINT "BASIC","basic"
 	END HEADING 1
 	MENU
-		FOR item& IN data&
-			LINK item&["path"],"Go to the page","nav-link"
-				PRINT item&["name"]
+		FOR menu& IN menus&
+			DEF path$=menu&["url"]
+			IFNTE menu&["path"] THEN
+				LET path$=menu&["path"]
+			END IF
+			LINK path$,"Go to the page","nav-link"
+				PRINT menu&["name"]
 			END LINK
 		NEXT
 	END MENU
