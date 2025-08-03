@@ -1,0 +1,144 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Edit the menu item | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		LOAD "_ROOT/../cms/shared/toolbar"
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				IF session_message$ THEN
+					SESSCLEAR "session_message"
+					DIV "alert alert-info"
+						PRINT session_message$
+					END DIV
+				END IF
+				IFNTE _POST("btn_delete") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "notifications"
+						DSET "deleted_by=:user_id, updated_by=:user_id, deleted_at=NOW(), updated_at=NOW(), status='deleted'"
+						DBIND id=_UVARS("id"), user_id=valid_user&[0]["id"]
+						DWHERE "id=:id"
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Notification has been marked as deleted"
+					GOTO "/kb-cms/notifications"
+				END IF
+				IFNTE _POST("btn_active") THEN
+					DATA
+						DOPEN "kytschBASIC-CMS"
+						DREAD "notifications"
+						DSET "status=:status"
+						DBIND id=_UVARS("id"), status=_POST("btn_active")
+						DWHERE "id=:id"
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Notification has been marked as " + _POST("btn_active")
+					GOTO "/kb-cms/notifications/edit/" + _UVARS("id")
+				END IF
+				DATA
+					DOPEN "kytschBASIC-CMS"
+					DREAD "notifications"
+					DSELECT "*"	
+					DWHERE "id=:id"
+					DBIND id=_UVARS("id")
+					DFETCH data&
+				END DATA
+				HEADING 2
+					PRINT "Viewing the notification"
+				END HEADING 2
+				IF data&[0]["deleted_at"] THEN
+					DIV "alert alert-danger"
+						PRINT "Notification marked as deleted"
+					END DIV
+				END IF
+				FORM "form_save", "POST"
+					DIV "page-toolbar"
+						DIV "kb-col-12"
+							DIV
+								LINK "/kb-cms/notifications","Back to the list","btn-icon"
+									IMAGE "/themes/cms/default/imgs/arrow-left.svg", "Go back"
+									PRINT "Back"
+								END LINK
+							END DIV
+							DIV
+								LINK "/kb-cms/notifications/add","Create a page","btn-icon"
+									IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add a new notification"
+									PRINT "Add"
+								END LINK
+							END DIV
+						END DIV
+						DIV "kb-col-12 box-footer-buttons"
+							BUTTONSUBMIT "btn_delete","btn-icon"
+								IMAGE "/themes/cms/default/imgs/trash.svg", "Mark the entry as deleted"
+								PRINT "Delete"
+							END BUTTON
+							IF data&[0]["status"]="unread" THEN
+								BUTTONSUBMIT "btn_active","btn-icon",,"read"
+									IMAGE "/themes/cms/default/imgs/cloud-minus.svg", "Mark as read"
+									PRINT "Read"
+								END BUTTON
+							ELSE
+								BUTTONSUBMIT "btn_active","btn-icon",,"unread"
+									IMAGE "/themes/cms/default/imgs/cloud-check.svg", "Mark as unread"
+									PRINT "Unread"
+								END BUTTON
+							END IF
+						END DIV
+					END DIV
+					DIV "box"
+						DIV "box-header"
+							DIV
+								PRINT "Notification"
+							END DIV
+							DIV "box-footer-buttons"
+								PRINT DATEFORMAT(data&[0]["created_at"], "d/m/Y H:i:s")
+							END DIV
+						END DIV
+						DIV "box-body"
+							DIV "input-group"
+								SWRITE
+									PRINT "Title"
+								END SWRITE
+								TEXTINPUT "title",data&[0]["title"]
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Message"
+								END SWRITE
+								TEXTAREA "content",data&[0]["content"]
+							END DIV
+						END DIV
+						DIV "box-footer"
+							DIV
+								PRINT "&nbsp;"
+							END DIV
+							DIV "box-footer-buttons"
+								BUTTONSUBMIT "btn_delete","btn-icon"
+									IMAGE "/themes/cms/default/imgs/trash.svg", "Mark the entry as deleted"
+									PRINT "Delete"
+								END BUTTON
+								IF data&[0]["status"]="unread" THEN
+									BUTTONSUBMIT "btn_active","btn-icon",,"read"
+										IMAGE "/themes/cms/default/imgs/cloud-minus.svg", "Mark as read"
+										PRINT "Read"
+									END BUTTON
+								ELSE
+									BUTTONSUBMIT "btn_active","btn-icon",,"unread"
+										IMAGE "/themes/cms/default/imgs/cloud-check.svg", "Mark as unread"
+										PRINT "Unread"
+									END BUTTON
+								END IF
+							END DIV
+						END DIV
+					END DIV
+				END FORM
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

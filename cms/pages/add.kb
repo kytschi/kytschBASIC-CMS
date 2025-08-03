@@ -6,19 +6,25 @@ END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
 	MAIN
+		LOAD "_ROOT/../cms/shared/toolbar"
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
+				IF session_message$ THEN
+					SESSCLEAR "session_message"
+					DIV "alert alert-info"
+						PRINT session_message$
+					END DIV
+				END IF
 				IFNTE _POST("btn_save") THEN
 					DATA
 						DOPEN "kytschBASIC-CMS"
 						DREAD "pages"
 						DINSERT "name=:name, content=:content, title=:title, path=:path, created_by=:user_id, updated_by=:user_id"
-						DBIND name=_POST("name"), content=_POST("content"), title=_POST("title"), path=_POST("path"), user_id="00000000-0000-0000-0000-000000000000"
+						DBIND name=_POST("name"), content=_POST("content"), title=_POST("title"), path=_POST("path"), user_id=valid_user&[0]["id"]
 						DEXEC
 					END DATA
-					DIV "alert alert-info"
-						PRINT "Entry has been created"
-					END DIV
+					SESSWRITE "session_message", "Entry has been created"
+					GOTO "/kb-cms/pages/add"
 				END IF
 				HEADING 2
 					PRINT "Create a page"

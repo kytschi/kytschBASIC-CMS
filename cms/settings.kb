@@ -6,6 +6,7 @@ END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
 	MAIN
+		LOAD "_ROOT/../cms/shared/toolbar"
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
 				HEADING 2
@@ -21,9 +22,9 @@ BODY
 					DATA
 						DOPEN "kytschBASIC-CMS"
 						DREAD "settings"
-						DSET "name=:name, domain=:domain, meta_keywords=:meta_keywords, meta_author=:meta_author, meta_description=:meta_description"
+						DSET "name=:name, domain=:domain, cms_theme_id=:cms_theme_id, website_theme_id=:website_theme_id, meta_keywords=:meta_keywords, meta_author=:meta_author, meta_description=:meta_description"
 						DWHERE "name IS NOT NULL"
-						DBIND name=_POST("name"), domain=_POST("domain"), meta_keywords=_POST("meta_keywords"), meta_author=_POST("meta_author"), meta_description=_POST("meta_description")
+						DBIND name=_POST("name"), domain=_POST("domain"), cms_theme_id=_POST("cms_theme_id"), website_theme_id=_POST("website_theme_id"), meta_keywords=_POST("meta_keywords"), meta_author=_POST("meta_author"), meta_description=_POST("meta_description")
 						DEXEC
 					END DATA
 					SESSWRITE "session_message", "Setting have been updated"
@@ -119,6 +120,55 @@ BODY
 							DIV "input-group"
 								PRINT "Meta description"
 								TEXTAREA "meta_description",data&[0]["meta_description"],"textarea-sm","Please enter a meta description"
+							END DIV
+						END DIV
+					END DIV
+					DIV "box"
+						DIV "box-header"
+							PRINT "Themes"
+						END DIV
+						DIV "box-body"
+							DIV "input-group"
+								SWRITE
+									PRINT "CMS theme"
+								END SWRITE
+								DATA
+									DOPEN "kytschBASIC-CMS"
+									DREAD "themes"
+									DSELECT "*"
+									DWHERE "type='cms'"
+									DSORT "is_default ASC, name ASC"
+									DFETCH themes&
+								END DATA
+								DEF count_themes%=COUNT(themes&)
+								SELECTINPUT "cms_theme_id",, "form-input", "Please select a theme"
+									FOR theme& IN themes&
+										SELECTINPUTOPT theme&["id"], theme&["name"]
+									NEXT
+								END SELECTINPUT
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Website theme"
+								END SWRITE
+								DATA
+									DOPEN "kytschBASIC-CMS"
+									DREAD "themes"
+									DSELECT "*"
+									DWHERE "type='website'"
+									DSORT "is_default ASC, name ASC"
+									DFETCH themes&
+								END DATA
+								LET count_themes%=COUNT(themes&)
+								IF count_themes% THEN
+									SELECTINPUT "website_theme_id",, "form-input", "Please select a theme"
+										FOR theme& IN themes&
+											SELECTINPUTOPT theme&["id"], theme&["name"]
+										NEXT
+									END SELECTINPUT
+								ELSE
+									PRINT "No website themes defined"
+								END IF
 							END DIV
 						END DIV
 					END DIV

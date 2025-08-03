@@ -1,7 +1,7 @@
 LANG "en"
 HEAD
 	LOAD "_ROOT/../cms/shared/head"
-	NAME "Edit the user | kytschBASIC CMS"
+	NAME "Add a theme | kytschBASIC CMS"
 END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
@@ -9,45 +9,42 @@ BODY
 		LOAD "_ROOT/../cms/shared/toolbar"
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
+				IF session_message$ THEN
+					SESSCLEAR "session_message"
+					DIV "alert alert-info"
+						PRINT session_message$
+					END DIV
+				END IF
 				IFNTE _POST("btn_save") THEN
+					DEF is_default%=0
+					IFNTE _POST("is_default") THEN 
+						LET is_default%=1
+					END IF
 					DATA
 						DOPEN "kytschBASIC-CMS"
-						DREAD "users"
-						DSET "username=:username, nickname=:nickname, updated_by=:updated_by, updated_at=NOW()"	
-						DWHERE "id=:id"
-						DBIND id=_UVARS("id"), username=_POST("username"), content=_POST("nickname"), updated_by=valid_user&[0]["id"]
+						DREAD "themes"
+						DINSERT "name=:name, folder=:folder, is_default=:is_default, type=:type, created_by=:user_id, updated_by=:user_id"
+						DBIND name=_POST("name"), folder=_POST("folder"), type=_POST("type"), is_default=is_default%, user_id=valid_user&[0]["id"]
 						DEXEC
 					END DATA
 					DIV "alert alert-info"
-						PRINT "Entry has been updated"
+						PRINT "Entry has been created"
 					END DIV
 				END IF
-				DATA
-					DOPEN "kytschBASIC-CMS"
-					DREAD "users"
-					DSELECT "*"	
-					DWHERE "id=:id"
-					DBIND id=_UVARS("id")
-					DFETCH data&
-				END DATA
 				HEADING 2
-					PRINT "Edit the user"
+					PRINT "Add a theme"
 				END HEADING 2
 				FORM "form_save", "POST"
 					DIV "page-toolbar"
 						DIV "kb-col-12"
 							DIV
-								LINK "/kb-cms/users","Back to the list","btn-icon"
+								LINK "/kb-cms/themes","Back to the list","btn-icon"
 									IMAGE "/themes/cms/default/imgs/arrow-left.svg", "Back button"
 									PRINT "Back"
 								END LINK
 							END DIV
 						END DIV
 						DIV "kb-col-12 box-footer-buttons"
-							LINK "/kb-cms/users/add","Create a user","btn-icon"
-								IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add button"
-								PRINT "Add"
-							END LINK
 							BUTTONSUBMIT "btn_save","btn-icon"
 								IMAGE "/themes/cms/default/imgs/floppy.svg", "Save button"
 								PRINT "Save"
@@ -57,22 +54,36 @@ BODY
 					DIV "box"
 						DIV "box-header"
 							PRINT "Details"
-							PRINT " required fields*", "required"
 						END DIV
 						DIV "box-body"
 							DIV "input-group"
 								SWRITE
-									PRINT "Username"
+									PRINT "Name"
 									PRINT "*", "required"
 								END SWRITE
-								TEXTINPUT "username",data&[0]["username"],, "Please enter a name",,true
+								TEXTINPUT "name",,, "Please enter a name",,true
 							END DIV
 							DIV "input-group"
 								SWRITE
-									PRINT "Nickname"
+									PRINT "Folder"
 									PRINT "*", "required"
 								END SWRITE
-								TEXTINPUT "nickname",data&[0]["nickname"],, "Please enter a nickname",,true
+								TEXTINPUT "folder",,, "Please enter a folder",,true
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Type"
+								END SWRITE
+								SELECTINPUT "type",, "form-input", "Please select a type"
+									SELECTINPUTOPT "cms", "CMS"
+									SELECTINPUTOPT "website", "Website"
+								END SELECTINPUT
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Is default theme?"
+								END SWRITE
+								CHECKINPUT "is_default",,, "Set the theme to default"
 							END DIV
 						END DIV
 						DIV "box-footer"
@@ -85,7 +96,7 @@ BODY
 									PRINT "Save"
 								END BUTTON
 							END DIV
-						END DIV
+						END DIV						
 					END DIV
 				END FORM
 			END DIV

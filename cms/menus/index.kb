@@ -6,6 +6,7 @@ END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
 	MAIN
+		LOAD "_ROOT/../cms/shared/toolbar"
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
 				DATA
@@ -24,7 +25,7 @@ BODY
 					END DIV
 					DIV "box"
 						DIV "box-header"
-							PRINT "Pages"
+							PRINT "Menu items"
 						END DIV
 						DIV "box-body"
 							DEF list_headings$=("Name", "URL", "Sort", "Status")

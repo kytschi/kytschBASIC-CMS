@@ -9,6 +9,7 @@ BODY
 	LOAD "_ROOT/assets/js/trumbowyg/trumbowyg.min.js"
 	PALETTE "/assets/js/trumbowyg/ui/trumbowyg.min"
 	MAIN
+		LOAD "_ROOT/../cms/shared/toolbar"
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
 				IF session_message$ THEN

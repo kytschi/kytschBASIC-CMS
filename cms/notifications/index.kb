@@ -1,0 +1,50 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../cms/shared/head"
+	NAME "Notifications | kytschBASIC CMS"
+END HEAD
+BODY
+	LOAD "_ROOT/../cms/shared/menu"
+	MAIN
+		LOAD "_ROOT/../cms/shared/toolbar"
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				IF session_message$ THEN
+					SESSCLEAR "session_message"
+					DIV "alert alert-info"
+						PRINT session_message$
+					END DIV
+				END IF
+				DATA
+					DOPEN "kytschBASIC-CMS"
+					DREAD "notifications"
+					DSELECT "*"
+					DWHERE "deleted_at IS NULL"
+					DSORT "notifications.created_at DESC"
+					DFETCH list&
+				END DATA
+				FORM "form_save", "POST"
+					DIV "page-toolbar"
+						LINK "/kb-cms/notifications/add","Create a notification","btn-icon"
+							IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add a notification"
+							PRINT "Add"
+						END LINK
+					END DIV
+					DIV "box"
+						DIV "box-header"
+							PRINT "Notifications"
+						END DIV
+						DIV "box-body"
+							DEF list_headings$=("Title", "Created at", "Status")
+							DEF list_vars$=("title", "created_at", "status")
+							DEF list_edit_link$="/kb-cms/notifications/edit"
+							LOAD "_ROOT/../cms/shared/list"
+						END DIV
+					END DIV
+				END FORM
+			END DIV
+		END DIV
+		LOAD "_ROOT/../cms/shared/footer"
+	END MAIN
+END BODY
+END

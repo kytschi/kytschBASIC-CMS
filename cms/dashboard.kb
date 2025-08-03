@@ -6,10 +6,11 @@ END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
 	MAIN
+		LOAD "_ROOT/../cms/shared/toolbar"
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
 				HEADING 2
-					PRINT "Dashboard"
+					PRINT "Greetings " + valid_user&[0]["nickname"]
 				END HEADING 2
 			END DIV
 		END DIV

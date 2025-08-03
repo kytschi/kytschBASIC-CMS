@@ -1,7 +1,7 @@
 LANG "en"
 HEAD
 	LOAD "_ROOT/../cms/shared/head"
-	NAME "Edit the menu item | kytschBASIC CMS"
+	NAME "Edit the theme | kytschBASIC CMS"
 END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
@@ -16,67 +16,67 @@ BODY
 					END DIV
 				END IF
 				IFNTE _POST("btn_save") THEN
-					DEF new_window%=0
-					IFNTE _POST("new_window") THEN 
-						LET new_window%=1
+					DEF is_default%=0
+					IFNTE _POST("is_default") THEN 
+						LET is_default%=1
 					END IF
 					DATA
 						DOPEN "kytschBASIC-CMS"
-						DREAD "menus"
-						DSET "name=:name, url=:url, sort=:sort, new_window=:new_window, page_id=:page_id, updated_by=:user_id"
-						DBIND id=_UVARS("id"), name=_POST("name"), url=_POST("url"), sort=_POST("sort"), new_window=new_window%, page_id=_POST("page_id"), user_id=valid_user&[0]["id"]
+						DREAD "themes"
+						DSET "name=:name, folder=:folder, is_default=:is_default, type=:type, updated_by=:user_id"
+						DBIND id=_UVARS("id"), name=_POST("name"), folder=_POST("folder"), type=_POST("type"), is_default=is_default%, user_id=valid_user&[0]["id"]
 						DWHERE "id=:id"
 						DEXEC
 					END DATA
 					SESSWRITE "session_message", "Entry has been updated"
-					REM GOTO "/kb-cms/menus/edit/" + _UVARS("id")
+					GOTO "/kb-cms/themes/edit/" + _UVARS("id")
 				END IF
 				IFNTE _POST("btn_delete") THEN
 					DATA
 						DOPEN "kytschBASIC-CMS"
-						DREAD "menus"
+						DREAD "themes"
 						DSET "deleted_by=:user_id, updated_by=:user_id, deleted_at=NOW(), updated_at=NOW(), status='deleted'"
 						DBIND id=_UVARS("id"), user_id=valid_user&[0]["id"]
 						DWHERE "id=:id"
 						DEXEC
 					END DATA
 					SESSWRITE "session_message", "Entry has been marked as deleted"
-					GOTO "/kb-cms/menus/edit/" + _UVARS("id")
+					GOTO "/kb-cms/themes/edit/" + _UVARS("id")
 				END IF
 				IFNTE _POST("btn_recover") THEN
 					DATA
 						DOPEN "kytschBASIC-CMS"
-						DREAD "menus"
+						DREAD "themes"
 						DSET "deleted_by=NULL, updated_by=:user_id, deleted_at=NULL, updated_at=NOW(), status='active'"
 						DBIND id=_UVARS("id"), user_id=valid_user&[0]["id"]
 						DWHERE "id=:id"
 						DEXEC
 					END DATA
 					SESSWRITE "session_message", "Entry has been recovered"
-					GOTO "/kb-cms/menus/edit/" + _UVARS("id")
+					GOTO "/kb-cms/themes/edit/" + _UVARS("id")
 				END IF
 				IFNTE _POST("btn_active") THEN
 					DATA
 						DOPEN "kytschBASIC-CMS"
-						DREAD "menus"
+						DREAD "themes"
 						DSET "status=:status"
 						DBIND id=_UVARS("id"), status=_POST("btn_active")
 						DWHERE "id=:id"
 						DEXEC
 					END DATA
 					SESSWRITE "session_message", "Entry has been marked as " + _POST("btn_active")
-					GOTO "/kb-cms/menus/edit/" + _UVARS("id")
+					GOTO "/kb-cms/themes/edit/" + _UVARS("id")
 				END IF
 				DATA
 					DOPEN "kytschBASIC-CMS"
-					DREAD "menus"
+					DREAD "themes"
 					DSELECT "*"	
 					DWHERE "id=:id"
 					DBIND id=_UVARS("id")
 					DFETCH data&
 				END DATA
 				HEADING 2
-					PRINT "Edit the menu item"
+					PRINT "Edit the theme"
 				END HEADING 2
 				IF data&[0]["deleted_at"] THEN
 					DIV "alert alert-danger"
@@ -87,14 +87,14 @@ BODY
 					DIV "page-toolbar"
 						DIV "kb-col-12"
 							DIV
-								LINK "/kb-cms/menus","Back to the list","btn-icon"
-									IMAGE "/themes/cms/default/imgs/arrow-left.svg", "Go back"
+								LINK "/kb-cms/themes","Back to the list","btn-icon"
+									IMAGE cms_theme&[0]["folder"] + "/imgs/arrow-left.svg", "Go back"
 									PRINT "Back"
 								END LINK
 							END DIV
 							DIV
-								LINK "/kb-cms/menus/add","Create a page","btn-icon"
-									IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add a new entry"
+								LINK "/kb-cms/themes/add","Create a page","btn-icon"
+									IMAGE cms_theme&[0]["folder"] + "/imgs/file-earmark-plus.svg", "Add a new entry"
 									PRINT "Add"
 								END LINK
 							END DIV
@@ -102,28 +102,28 @@ BODY
 						DIV "kb-col-12 box-footer-buttons"
 							IF data&[0]["deleted_at"] THEN
 								BUTTONSUBMIT "btn_recover","btn-icon"
-									IMAGE "/themes/cms/default/imgs/recycle.svg", "Recover the entry"
+									IMAGE cms_theme&[0]["folder"] + "/imgs/recycle.svg", "Recover the entry"
 									PRINT "Recover"
 								END BUTTON
 							ELSE
 								BUTTONSUBMIT "btn_delete","btn-icon"
-									IMAGE "/themes/cms/default/imgs/trash.svg", "Mark the entry as deleted"
+									IMAGE cms_theme&[0]["folder"] + "/imgs/trash.svg", "Mark the entry as deleted"
 									PRINT "Delete"
 								END BUTTON
 							END IF
 							IF data&[0]["status"]="active" THEN
 								BUTTONSUBMIT "btn_active","btn-icon",,"inactive"
-									IMAGE "/themes/cms/default/imgs/cloud-minus.svg", "Mark as inactive"
+									IMAGE cms_theme&[0]["folder"] + "/imgs/cloud-minus.svg", "Mark as inactive"
 									PRINT "Deactive"
 								END BUTTON
 							ELSE
 								BUTTONSUBMIT "btn_active","btn-icon",,"active"
-									IMAGE "/themes/cms/default/imgs/cloud-check.svg", "Mark as active"
+									IMAGE cms_theme&[0]["folder"] + "/imgs/cloud-check.svg", "Mark as active"
 									PRINT "Active"
 								END BUTTON
 							END IF
 							BUTTONSUBMIT "btn_save","btn-icon"
-								IMAGE "/themes/cms/default/imgs/floppy.svg", "Save the entry"
+								IMAGE cms_theme&[0]["folder"] + "/imgs/floppy.svg", "Save the entry"
 								PRINT "Save"
 							END BUTTON
 						END DIV
@@ -142,39 +142,25 @@ BODY
 							END DIV
 							DIV "input-group"
 								SWRITE
-									PRINT "Page"
+									PRINT "Folder"
+									PRINT "*", "required"
 								END SWRITE
-								DATA
-									DOPEN "kytschBASIC-CMS"
-									DREAD "pages"
-									DSELECT "*"					
-									DSORT "pages.name ASC"
-									DFETCH pages&
-								END DATA
-								SELECTINPUT "page_id",, "form-input", "Please select a page"
-									SELECTINPUTOPT "", "No page", data&[0]["page_id"]
-									FOR page& IN pages&
-										SELECTINPUTOPT page&["id"], page&["name"], data&[0]["page_id"]
-									NEXT
+								TEXTINPUT "folder",data&[0]["folder"],, "Please enter a folder",,true
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Type"
+								END SWRITE
+								SELECTINPUT "type",, "form-input", "Please select a type"
+									SELECTINPUTOPT "cms", "CMS", data&[0]["type"]
+									SELECTINPUTOPT "website", "Website", data&[0]["type"]
 								END SELECTINPUT
 							END DIV
 							DIV "input-group"
 								SWRITE
-									PRINT "External URL"
+									PRINT "Is default theme?"
 								END SWRITE
-								TEXTINPUT "url",data&[0]["url"],, "Please enter a external URL"
-							END DIV
-							DIV "input-group"
-								SWRITE
-									PRINT "Open in new window"
-								END SWRITE
-								CHECKINPUT "new_window",1,,"Please check if you want the menu item to open in a new window",,,data&[0]["new_window"]
-							END DIV
-							DIV "input-group"
-								SWRITE
-									PRINT "Order number"
-								END SWRITE
-								TEXTINPUT "sort",data&[0]["sort"],, "Please enter a order number to help order the menu items"
+								CHECKINPUT "is_default",1,,"Set the theme to default",,,data&[0]["is_default"]
 							END DIV
 						END DIV
 						DIV "box-footer"
@@ -182,34 +168,12 @@ BODY
 								PRINT " required fields*", "required"
 							END DIV
 							DIV "box-footer-buttons"
-								IF data&[0]["deleted_at"] THEN
-									BUTTONSUBMIT "btn_recover","btn-icon"
-										IMAGE "/themes/cms/default/imgs/recycle.svg", "Recover the entry"
-										PRINT "Recover"
-									END BUTTON
-								ELSE
-									BUTTONSUBMIT "btn_delete","btn-icon"
-										IMAGE "/themes/cms/default/imgs/trash.svg", "Mark the entry as deleted"
-										PRINT "Delete"
-									END BUTTON
-								END IF
-								IF data&[0]["status"]="active" THEN
-									BUTTONSUBMIT "btn_active","btn-icon",,"inactive"
-										IMAGE "/themes/cms/default/imgs/cloud-minus.svg", "Mark as inactive"
-										PRINT "Deactive"
-									END BUTTON
-								ELSE
-									BUTTONSUBMIT "btn_active","btn-icon",,"active"
-										IMAGE "/themes/cms/default/imgs/cloud-check.svg", "Mark as active"
-										PRINT "Active"
-									END BUTTON
-								END IF
 								BUTTONSUBMIT "btn_save","btn-icon"
-									IMAGE "/themes/cms/default/imgs/floppy.svg", "Save the entry"
+									IMAGE cms_theme&[0]["folder"] + "/imgs/floppy.svg", "Save button"
 									PRINT "Save"
 								END BUTTON
 							END DIV
-						END DIV
+						END DIV						
 					END DIV
 				END FORM
 			END DIV

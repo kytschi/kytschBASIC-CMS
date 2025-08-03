@@ -6,6 +6,7 @@ END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
 	MAIN
+		LOAD "_ROOT/../cms/shared/toolbar"
 		DIV "kb-row","main-content"
 			DIV "kb-col kb-col-24","main-content-col"
 				IF session_message$ THEN
@@ -22,8 +23,8 @@ BODY
 					DATA
 						DOPEN "kytschBASIC-CMS"
 						DREAD "menus"
-						DINSERT "name=:name, url=:url, new_window=:new_window, page_id=:page_id, created_by=:user_id, updated_by=:user_id"
-						DBIND name=_POST("name"), url=_POST("url"), new_window=new_window%, page_id=_POST("page_id"), user_id=valid_user&[0]["id"]
+						DINSERT "name=:name, url=:url, new_window=:new_window, sort=:sort, page_id=:page_id, created_by=:user_id, updated_by=:user_id"
+						DBIND name=_POST("name"), url=_POST("url"), new_window=new_window%, sort=_POST("sort"), page_id=_POST("page_id"), user_id=valid_user&[0]["id"]
 						DEXEC
 					END DATA
 					SESSWRITE "session_message", "Entry has been created"

@@ -1,27 +1,116 @@
 [
 	{
-		"url": "/kb-cms",
-		"template": "../cms/dashboard.kb"
+		"url": "*",
+		"template": "../website/page.kb"
 	},
-	{
-		"url": "/kb-cms/pages",
-		"template": "../cms/pages/index.kb"
-	},
-	{
-		"url": "/kb-cms/pages/add",
-		"template": "../cms/pages/add.kb"
-	},
-	{
-		"url": "/kb-cms/pages/edit/{id}",
-		"template": "../cms/pages/edit.kb"
-	},
-
 	{
 		"url": "/",
 		"template": "../website/index.kb"
 	},
 	{
-		"url": "*",
-		"template": "../website/page.kb"
+		"url": "/contact",
+		"template": "../website/contact.kb"
+	},
+	{
+		"url": "/offline",
+		"template": "../website/offline.kb",
+		"offline": true
+	},
+
+	{
+		"url": "/kb-cms/test",
+		"template": "../cms/test.kb"
+	},
+	{
+		"url": "/kb-cms/login",
+		"template": "../cms/users/login.kb",
+		"secure": false,
+		"login": true
+	},
+	{
+		"url": "/kb-cms",
+		"template": "../cms/dashboard.kb",
+		"secure": true,
+		"primary": true
+	},
+	{
+		"url": "/kb-cms/settings",
+		"template": "../cms/settings.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/pages",
+		"template": "../cms/pages/index.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/pages/add",
+		"template": "../cms/pages/add.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/pages/edit/{id}",
+		"template": "../cms/pages/edit.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/menus",
+		"template": "../cms/menus/index.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/menus/add",
+		"template": "../cms/menus/add.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/menus/edit/{id}",
+		"template": "../cms/menus/edit.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/notifications",
+		"template": "../cms/notifications/index.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/notifications/add",
+		"template": "../cms/notifications/add.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/notifications/edit/{id}",
+		"template": "../cms/notifications/edit.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/themes",
+		"template": "../cms/themes/index.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/themes/add",
+		"template": "../cms/themes/add.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/themes/edit/{id}",
+		"template": "../cms/themes/edit.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/users",
+		"template": "../cms/users/index.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/users/add",
+		"template": "../cms/users/add.kb",
+		"secure": true
+	},
+	{
+		"url": "/kb-cms/users/edit/{id}",
+		"template": "../cms/users/edit.kb",
+		"secure": true
 	}
 ]

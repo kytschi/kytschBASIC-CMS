@@ -15,6 +15,9 @@ HEADER
 			LINK "/kb-cms/menus","Go to the menus","nav-link"
 				PRINT "Menus"
 			END LINK
+			LINK "/kb-cms/themes","Go to the themes","nav-link"
+				PRINT "Themes"
+			END LINK
 			LINK "/kb-cms/users","Go to the users","nav-link"
 				PRINT "Users"
 			END LINK

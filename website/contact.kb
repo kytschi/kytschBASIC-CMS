@@ -1,0 +1,71 @@
+LANG "en"
+HEAD
+	LOAD "_ROOT/../website/shared/head"
+END HEAD
+BODY
+	LOAD "_ROOT/../website/shared/header"
+	MAIN
+		DIV "kb-row","main-content"
+			DIV "kb-col kb-col-24","main-content-col"
+				DEF session_message$=SESSREAD("session_message")
+				IF session_message$ THEN
+					SESSCLEAR "session_message"
+					DIV "alert alert-success"
+						PRINT session_message$
+					END DIV
+				END IF
+				IFNTE _POST("btn_save") THEN
+					DEF content$=SANITISE(_POST("content"))
+					DATA	
+						DOPEN "kytschBASIC-CMS"
+						DREAD "notifications"
+						DINSERT "title=:title, content=:content,created_by=:user_id, updated_by=:user_id"
+						DBIND title=_POST("title"), content=content$, user_id="00000000-0000-0000-0000-000000000000"
+						DEXEC
+					END DATA
+					SESSWRITE "session_message", "Your message has been sent"
+					GOTO "/contact"
+				END IF
+				FORM "form_save", "POST"
+					DIV "box"
+						DIV "box-header"
+							PRINT page&[0]["title"]
+						END DIV
+						DIV "box-body"
+							SWRITE
+								PRINT page&[0]["content"]
+							END SWRITE
+							DIV "input-group"
+								SWRITE
+									PRINT "Subject"
+									PRINT "*", "required"
+								END SWRITE
+								TEXTINPUT "title",,, "Please enter a subject",,true
+							END DIV
+							DIV "input-group"
+								SWRITE
+									PRINT "Message"
+									PRINT "*", "required"
+								END SWRITE
+								TEXTAREA "content",,, "Please enter your message",,true
+							END DIV
+						END DIV
+						DIV "box-footer"
+							DIV
+								PRINT " required fields*", "required"
+							END DIV
+							DIV "box-footer-buttons"
+								BUTTONSUBMIT "btn_save","btn-icon"
+									IMAGE website_theme&[0]["folder"] + "/imgs/send.svg", "Send button"
+									PRINT "Send"
+								END BUTTON
+							END DIV
+						END DIV	
+					END DIV
+				END FORM
+			END DIV
+		END DIV
+		LOAD "_ROOT/../website/shared/footer"
+	END MAIN
+END BODY
+END

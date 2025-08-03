@@ -1,7 +1,7 @@
 LANG "en"
 HEAD
 	LOAD "_ROOT/../cms/shared/head"
-	NAME "Users | kytschBASIC CMS"
+	NAME "Themes | kytschBASIC CMS"
 END HEAD
 BODY
 	LOAD "_ROOT/../cms/shared/menu"
@@ -11,26 +11,26 @@ BODY
 			DIV "kb-col kb-col-24","main-content-col"
 				DATA
 					DOPEN "kytschBASIC-CMS"
-					DREAD "users"
+					DREAD "themes"
 					DSELECT "*"					
-					DSORT "users.username ASC"
+					DSORT "is_default ASC"
 					DFETCH list&
 				END DATA
-				DIV "page-toolbar"
-					LINK "/kb-cms/users/add","Create a user","btn-icon"
-						IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add button"
-						PRINT "Add"
-					END LINK
-				END DIV
 				FORM "form_save", "POST"
+					DIV "page-toolbar"
+						LINK "/kb-cms/themes/add","Create a page","btn-icon"
+							IMAGE "/themes/cms/default/imgs/file-earmark-plus.svg", "Add button"
+							PRINT "Add"
+						END LINK
+					END DIV
 					DIV "box"
 						DIV "box-header"
-							PRINT "Users"
+							PRINT "Themes"
 						END DIV
 						DIV "box-body"
-							DEF list_headings$=("Username", "Status")
-							DEF list_vars$=("username", "status")
-							DEF list_edit_link$="/kb-cms/users/edit"
+							DEF list_headings$=("Name", "Path", "Type", "Default", "Status")
+							DEF list_vars$=("name", "folder", "type", "is_default", "status")
+							DEF list_edit_link$="/kb-cms/themes/edit"
 							LOAD "_ROOT/../cms/shared/list"
 						END DIV
 					END DIV

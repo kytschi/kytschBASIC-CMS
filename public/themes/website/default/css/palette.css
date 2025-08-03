@@ -264,6 +264,131 @@ th, td {
 	text-align: right;
 }
 
+.alert {
+    position: relative;
+    padding: 1rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: .25rem;
+}
+
+.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
+.alert-danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+    display: flex;
+    width: min-content;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-icon img {
+    flex: 0 0 auto;
+    width: 36px;
+    white-space: nowrap;
+}
+
+.btn-icon span {
+    flex: 0 0 auto;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.box textarea {
+    min-height: 400px;
+}
+
+.box .textarea-sm {
+    min-height: 200px;
+}
+
+.box {
+    border: 1px #000 solid;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.box-header {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: 5px;
+    padding: 20px;
+    background-color: #d14;
+    color: #fff;
+}
+
+.box-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.input-group p {
+    padding: 0 0 5px 0;
+    margin: 0;
+}
+
+.input-group input, .input-group select {
+    line-height: 1.6rem;
+    width: calc(100% - 10px);
+    height: 40px;
+}
+
+.input-group input[type=checkbox] {
+    width: 50px;
+    height: 20px;
+}
+
+.box-footer {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    flex: 1;
+}
+
+.box-footer div, .box-header div {
+    width: 50%;
+}
+
+.box-footer-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.required {
+    font-size: 0.8em;
+    color: #d14;
+}
+
 @media only screen and (max-width: 1024px) {
     body {
         overflow-x: scroll;

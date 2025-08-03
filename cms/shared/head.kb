@@ -1,7 +1,16 @@
 DEF valid_user&=VALIDUSER("user")
 DEF session_message$=SESSREAD("session_message")
 
+DATA
+    DOPEN "kytschBASIC-CMS"
+    DREAD "themes"
+    DSELECT "*"
+    DWHERE "type='cms'"
+    DSORT "is_default ASC, name ASC"
+    DFETCH cms_theme&
+END DATA
+
 CHARSET "UTF-8"
 VIEWPORT "width=device-width, initial-scale=1.0"
-FAVICON "/themes/cms/default/imgs/favicon.ico","64x64"
-PALETTE "/themes/cms/default/css/palette"
+FAVICON cms_theme&[0]["folder"] + "/imgs/favicon.ico","64x64"
+PALETTE cms_theme&[0]["folder"] + "/css/palette"

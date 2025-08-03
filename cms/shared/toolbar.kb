@@ -1,0 +1,25 @@
+DATA
+	DOPEN "kytschBASIC-CMS"
+	DREAD "notifications"
+	DSELECT "*"	
+	DWHERE "status='unread' AND deleted_at IS NULL AND (user_id=:user_id OR user_id IS NULL)"
+	DBIND user_id=valid_user&[0]["id"]
+	DSORT "created_at DESC"
+	DFETCH notifications&
+END DATA
+DEF notifications_count%=COUNT(notifications&)
+DIV ,"toolbar"
+	DIV "kb-row"
+		DIV "kb-col kb-col-12"
+			
+		END DIV
+		DIV "kb-col kb-col-12 box-footer-buttons"
+			LINK "/kb-cms/notifications", "Go to notifications", "btn-icon"
+				IMAGE "/themes/cms/default/imgs/bell.svg", "View notifications"
+				IF notifications_count& THEN
+					PRINT notifications_count&, "badge rounded-pill bg-danger"
+				END IF
+			END LINK
+		END DIV
+	END DIV
+END DIV

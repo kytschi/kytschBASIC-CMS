@@ -19,11 +19,20 @@ DATA
 	DFETCH page&
 END DATA
 
+DATA
+    DOPEN "kytschBASIC-CMS"
+    DREAD "themes"
+    DSELECT "*"
+    DWHERE "type='website'"
+    DSORT "is_default ASC, name ASC"
+    DFETCH website_theme&
+END DATA
+
 CHARSET "UTF-8"
 DESCRIPTION settings&[0]["meta_description"]
 KEYWORDS settings&[0]["meta_keywords"]
 AUTHOR settings&[0]["meta_author"]
 VIEWPORT "width=device-width, initial-scale=1.0"
-FAVICON "/themes/website/default/imgs/favicon.ico","64x64"
-PALETTE "/themes/website/default/css/palette"
+FAVICON website_theme&[0]["folder"] + "/imgs/favicon.ico","64x64"
+PALETTE website_theme&[0]["folder"] + "/css/palette"
 NAME page&[0]["title"] + " | " + settings&[0]["name"]
